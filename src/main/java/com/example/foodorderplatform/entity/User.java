@@ -36,8 +36,12 @@ public class User extends Timestamped {
 	private UserRoleEnum role;
 
 	// 지역과의 연관관계
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "region_no")
 	private Region region;
 
+	// 주소와의 연관관계
+	@ManyToOne
+	@JoinColumn(name = "address_no")
+	private Address address;
 }

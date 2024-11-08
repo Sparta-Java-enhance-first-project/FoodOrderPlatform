@@ -50,6 +50,11 @@ public class Store extends Timestamped {
 	@JoinColumn(name = "region_no")
 	private Region region;
 
+	// 주소와의 연관 관계
+	@ManyToOne
+	@JoinColumn(name = "address_no")
+	private Address address;
+
 	// 사업자 등록증 정보와의 관계
 	@OneToOne(mappedBy = "store")
 	private BusinessInfo businessInfo;
