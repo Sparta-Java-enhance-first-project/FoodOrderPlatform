@@ -5,15 +5,19 @@ import com.example.foodorderplatform.auditing.Timestamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.util.List;
+import java.util.UUID;
+
+/*
+* check
+* */
 
 @Getter
 @Entity
 @Table(name = "p_region")
 public class Region extends Timestamped {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long region_no;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID regionNo;
 	@Column(nullable = false)
-	private String region_nm;
+	private String regionNm;
 }

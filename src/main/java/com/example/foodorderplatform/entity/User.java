@@ -1,35 +1,41 @@
 package com.example.foodorderplatform.entity;
 
 import com.example.foodorderplatform.auditing.Timestamped;
+import com.example.foodorderplatform.enumclass.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+/*
+* check
+* */
 
 @Getter
 @Entity
 @Table(name = "p_user")
 public class User extends Timestamped {
-
+	/*
+	* User만 Id 전략이 IDENTITY
+	* */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long user_no;		// user_no
+	private Long userNo;
+	@Column(nullable = false, unique = true)
+	private String userId;
 	@Column(nullable = false)
-	private String user_id;		// user id
+	private String userPw;
 	@Column(nullable = false)
-	private String user_pw;		// user password
+	private String userNm;
 	@Column(nullable = false)
-	private String user_nm;		// user name
+	private String userBirth;
 	@Column(nullable = false)
-	private String user_birth;	// user birthday
+	private String userTel;
 	@Column(nullable = false)
-	private String user_tel;	// user telephone
-	@Column(nullable = false)
-	private String user_email;	// user email
+	private String userEmail;
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private UserRoleEnum role;	// user role
+	private UserRoleEnum role;
 
+	// 지역과의 연관관계
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "region_no")
 	private Region region;

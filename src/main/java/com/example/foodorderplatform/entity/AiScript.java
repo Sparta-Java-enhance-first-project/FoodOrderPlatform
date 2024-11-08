@@ -6,20 +6,22 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/*
+* check
+* */
+
 @Getter
 @Entity
-@Table(name = "p_cart")
-public class Cart {
+@Table(name = "p_ai_script")
+public class AiScript extends Timestamped {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID cartNo;
+	private UUID scriptNo;
+	@Column
+	private String scriptQuestion;	// 스크립트질문
+	@Column
+	private String scriptAnswer;	// 스크립트 답변
 
-	// 가게와의 연관 관계
-	@ManyToOne
-	@JoinColumn(name = "store_no")
-	private Store store;
-
-	// 사용자와의 연관 관계
 	@ManyToOne
 	@JoinColumn(name = "user_no")
 	private User user;

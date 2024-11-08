@@ -6,21 +6,24 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/*
+* check
+* */
 @Getter
 @Entity
-@Table(name = "p_cart")
-public class Cart {
+@Table(name = "p_food_cart")
+public class FoodCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID cartNo;
+	@Column(nullable = false)
+	private Integer foodCnt;
 
-	// 가게와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_no")
-	private Store store;
+	@JoinColumn(name = "cart_no")
+	private Cart cart;
 
-	// 사용자와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "user_no")
-	private User user;
+	@JoinColumn(name = "food_no")
+	private Food food;
 }
