@@ -15,11 +15,11 @@ public class Cart {
 
 	// 가게와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_no")
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	// 사용자와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "user_id")
 	private User user;
 }

@@ -20,11 +20,11 @@ public class FoodOrder {
 
 	// 주문과의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "order_no")
-	private Order oder;
+	@JoinColumn(name = "order_id")
+	private Order order;
 
 	// 음식과의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "order_no")
+	@JoinColumn(name = "food_id")
 	private Food food;
 }

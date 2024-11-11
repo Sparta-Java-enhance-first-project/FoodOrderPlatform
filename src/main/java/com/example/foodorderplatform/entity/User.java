@@ -1,8 +1,11 @@
 package com.example.foodorderplatform.entity;
 
 import com.example.foodorderplatform.auditing.Timestamped;
+import com.example.foodorderplatform.dto.SignupRequestDto;
+import com.example.foodorderplatform.dto.UserInfoRequestDto;
 import com.example.foodorderplatform.enumclass.UserRoleEnum;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.*;
 
 /*
@@ -11,6 +14,7 @@ import lombok.*;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "p_user")
 public class User extends Timestamped {
 	/*
@@ -26,7 +30,7 @@ public class User extends Timestamped {
 	@Column(nullable = false)
 	private String userPw;
 	@Column(nullable = false)
-	private String userBirth;
+	private LocalDate userBirth;
 	@Column(nullable = false)
 	private String userTel;
 	@Column(nullable = false)
@@ -37,11 +41,38 @@ public class User extends Timestamped {
 
 	// 지역과의 연관관계
 	@ManyToOne
-	@JoinColumn(name = "region_no")
+	@JoinColumn(name = "region_id")
 	private Region region;
 
 	// 주소와의 연관관계
-	@ManyToOne
-	@JoinColumn(name = "address_no")
+	@OneToOne
+	@JoinColumn(name = "address_id")
 	private Address address;
+
+	public User(SignupRequestDto requestDto){
+		this.userName = requestDto.getUsername();
+		this.userPw = requestDto.getUserPw();
+		this.userNickName = requestDto.getUserNickname();
+		this.userEmail = requestDto.getUserEmail();
+		this.userBirth = requestDto.getUserBirth();
+		this.userTel = requestDto.getUserTel();
+		this.role = requestDto.isAdmin() ? UserRoleEnum.USER : UserRoleEnum.ADMIN;
+	}
+
+	public void updateUser(UserInfoRequestDto requestDto){
+		this.userName = requestDto.getUsername();
+		this.userPw = requestDto.getUserPw();
+		this.userNickName = requestDto.getUserNickname();
+		this.userEmail = requestDto.getUserEmail();
+		this.userBirth = requestDto.getUserBirth();
+		this.userTel = requestDto.getUserTel();
+	}
+
+	public void setRegion(Region region){
+		this.region = region;
+	}
+
+	public void setAddress(Address address){
+		this.address = address;
+	}
 }

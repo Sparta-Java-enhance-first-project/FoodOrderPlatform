@@ -25,6 +25,6 @@ public class BusinessInfo {
 
 	// 가게와의 연관 관계
 	@OneToOne
-	@JoinColumn(name = "store_no")
+	@JoinColumn(name = "store_id")
 	private Store store;
 }
