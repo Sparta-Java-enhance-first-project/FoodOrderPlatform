@@ -21,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * 회원 가입 메서드
+     * 회원 가입
      * @param requestDto : 회원가입 정보
      * @return : 회원 가입 완료 메세지
      */
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     /**
-     * 마이 페이지 조회 메서드
+     * 마이 페이지 유저 정보 조회
      * @return 마이페이지
      */
     @GetMapping("/mypage/info")// 토큰에서 유저 식별 후 해당 유저 반환
@@ -39,6 +39,11 @@ public class UserController {
         return userService.getUserInfo();
     }
 
+    /**
+     * 마이 페이지 유저 정보 수정
+     * @param requestDto 수정된 유저 정보
+     * @return 수정된 유저 정보
+     */
     @PatchMapping("/mypage/info")
     public ResponseEntity<UserInfoResponseDto> updateUserInfo(@RequestBody UserInfoRequestDto requestDto){
         return userService.updateUserInfo(requestDto);
