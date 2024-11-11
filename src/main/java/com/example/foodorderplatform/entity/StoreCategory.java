@@ -15,7 +15,7 @@ import java.util.UUID;
 public class StoreCategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID categoryNo;
+	private UUID categoryId;
 
 	@Column(nullable = false)
 	private String categoryNm;	// 카테고리 이름

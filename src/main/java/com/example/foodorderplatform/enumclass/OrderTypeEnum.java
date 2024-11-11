@@ -4,7 +4,7 @@ package com.example.foodorderplatform.enumclass;
 * check
 * */
 public enum OrderTypeEnum {
-	PACKAGE(OrderTypeEnum.Type.PACKAGE),	// 포장주문
+	TAKE_OUT(OrderTypeEnum.Type.TAKE_OUT),	// 포장주문
 	ONLINE(OrderTypeEnum.Type.ONLINE);			// 배달주문
 
 
@@ -20,7 +20,7 @@ public enum OrderTypeEnum {
 	}
 
 	public static class Type{
-		public static final String PACKAGE = "포장주문";
+		public static final String TAKE_OUT = "포장주문";
 		public static final String ONLINE = "배달주문";
 	}
 }

@@ -18,13 +18,13 @@ public class User extends Timestamped {
 	* */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userNo;
+	private Long userId;
 	@Column(nullable = false, unique = true)
-	private String userId;
+	private String userName;
+	@Column(nullable = false)
+	private String userNickName;
 	@Column(nullable = false)
 	private String userPw;
-	@Column(nullable = false)
-	private String userNm;
 	@Column(nullable = false)
 	private String userBirth;
 	@Column(nullable = false)

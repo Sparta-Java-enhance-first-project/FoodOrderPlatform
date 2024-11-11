@@ -17,7 +17,7 @@ public class Store extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID storeNo;
+	private UUID storeId;
 	@Column(nullable = false)
 	private String storeNm;				// 가게 이름
 	@Column(nullable = false)

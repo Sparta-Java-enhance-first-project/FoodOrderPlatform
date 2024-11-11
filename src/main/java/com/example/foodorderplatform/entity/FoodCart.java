@@ -1,6 +1,5 @@
 package com.example.foodorderplatform.entity;
 
-import com.example.foodorderplatform.auditing.Timestamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -15,7 +14,7 @@ import java.util.UUID;
 public class FoodCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID cartNo;
+	private UUID cartId;
 	@Column(nullable = false)
 	private Integer foodCnt;
 

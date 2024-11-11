@@ -16,7 +16,7 @@ import java.util.UUID;
 public class AiScript extends Timestamped {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID scriptNo;
+	private UUID scriptId;
 	@Column
 	private String scriptQuestion;	// 스크립트질문
 	@Column

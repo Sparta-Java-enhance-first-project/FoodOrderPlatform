@@ -13,7 +13,7 @@ public class Address extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID addressNo;
+	private UUID addressId;
 	@Column(nullable = false)
 	private String addressName;
 }
