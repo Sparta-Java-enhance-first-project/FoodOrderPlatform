@@ -1,6 +1,5 @@
 package com.example.foodorderplatform.entity;
 
-import com.example.foodorderplatform.auditing.Timestamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -12,7 +11,7 @@ import java.util.UUID;
 public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID cartNo;
+	private UUID cartId;
 
 	// 가게와의 연관 관계
 	@ManyToOne

@@ -15,7 +15,7 @@ public class FoodCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID categoryNo;
+	private UUID categoryId;
 	@Column(nullable = false)
 	private String categoryNm;
 

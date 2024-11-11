@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Region extends Timestamped {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID regionNo;
+	private UUID regionId;
 	@Column(nullable = false)
 	private String regionNm;
 }

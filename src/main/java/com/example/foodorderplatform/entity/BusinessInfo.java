@@ -1,6 +1,5 @@
 package com.example.foodorderplatform.entity;
 
-import com.example.foodorderplatform.auditing.Timestamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 import java.util.UUID;
@@ -16,7 +15,7 @@ public class BusinessInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID businessInfoNo;
+	private UUID businessInfoId;
 	@Column(nullable = false)
 	private String businessRegistrationNumber;	// 사업자 등록 번호
 	@Column(nullable = false)

@@ -16,7 +16,7 @@ public class Review extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID reviewNo;
+	private UUID reviewId;
 	@Column(nullable = false)
 	private Integer rating;
 	@Column

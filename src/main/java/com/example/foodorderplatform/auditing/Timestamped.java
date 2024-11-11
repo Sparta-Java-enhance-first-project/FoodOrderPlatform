@@ -25,16 +25,16 @@ public abstract class Timestamped {
 	private String createdBy;
 
 	@LastModifiedDate	// entity 수정 시 시간 자동 저장
-	@Column	// null 불가
+	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime modifiedAt;
 
 	@LastModifiedBy	// entity 수정 시 사용자 자동 저장
-	@Column	// null 불가
+	@Column
 	private String modifiedBy;
 
-	@LastModifiedBy	// 삭제 시 시간 자동 저장
-	@Column(updatable = false)
+	@LastModifiedDate	// 삭제 시 시간 자동 저장
+	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime deletedAt;
 
