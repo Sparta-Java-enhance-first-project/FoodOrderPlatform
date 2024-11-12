@@ -2,17 +2,20 @@ package com.example.foodorderplatform.service;
 
 import static com.example.foodorderplatform.message.SuccessMessage.CREATE_STORE_REQUEST_SUCCESS;
 
-import com.example.foodorderplatform.dto.StoreRequestDto;
+import com.example.foodorderplatform.dto.StoreCreateRequestDto;
+import com.example.foodorderplatform.dto.StoreCreateResponseDto;
 import com.example.foodorderplatform.entity.Address;
 import com.example.foodorderplatform.entity.BusinessInfo;
 import com.example.foodorderplatform.entity.Region;
 import com.example.foodorderplatform.entity.Store;
 import com.example.foodorderplatform.entity.User;
+import com.example.foodorderplatform.enumclass.StoreConfirmStatus;
 import com.example.foodorderplatform.repository.AddressRepository;
 import com.example.foodorderplatform.repository.BusinessInfoRepository;
 import com.example.foodorderplatform.repository.RegionRepository;
 import com.example.foodorderplatform.repository.StoreRepository;
 import com.example.foodorderplatform.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,23 +35,29 @@ public class StoreService {
     private final AddressRepository addressRepository;
 
 
-    public ResponseEntity<String> createStore(StoreRequestDto storeRequestDto) {
+    public ResponseEntity<String> createStoreEnterRequest(StoreCreateRequestDto storeCreateRequestDto) {
         //todo 임시, 추후 시큐리티 도입 후 userDetails를 통해 가져오도록 변경
         User user = userRepository.findByUserName("yshong1998").get();
         // 지역 생성 or 조회
-        Region region = regionRepository.findByRegionName(storeRequestDto.getRegionName()).orElse(null);
+        Region region = regionRepository.findByRegionName(storeCreateRequestDto.getRegionName()).orElse(null);
         if (region == null){
-            region = regionRepository.save(new Region(storeRequestDto.getRegionName()));
+            region = regionRepository.save(new Region(storeCreateRequestDto.getRegionName()));
         }
 
         // 상세 주소 생성
-        Address address = addressRepository.save(new Address(storeRequestDto.getAddressName()));
+        Address address = addressRepository.save(new Address(storeCreateRequestDto.getAddressName()));
 
         // 사업자 생성
-        BusinessInfo businessInfo = businessInfoRepository.save(new BusinessInfo(storeRequestDto.getBusinessInfoRequestDto()));
+        BusinessInfo businessInfo = businessInfoRepository.save(new BusinessInfo(storeCreateRequestDto.getBusinessInfoDto()));
 
         // 가게 생성
-        storeRepository.save(new Store(user, region, address, storeRequestDto, businessInfo));
+        storeRepository.save(new Store(user, region, address, storeCreateRequestDto, businessInfo));
         return new ResponseEntity<>(CREATE_STORE_REQUEST_SUCCESS.getMessage(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<StoreCreateResponseDto>> getStoreEnterRequestList() {
+        List<Store> storeList = storeRepository.findAllByConfirmStatus(StoreConfirmStatus.REQUIRED);
+        List<StoreCreateResponseDto> storeCreateResponseDtoList = storeList.stream().map(StoreCreateResponseDto::new).toList();
+        return new ResponseEntity<>(storeCreateResponseDtoList, HttpStatus.OK);
     }
 }

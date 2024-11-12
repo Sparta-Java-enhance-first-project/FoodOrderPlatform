@@ -1,6 +1,6 @@
 package com.example.foodorderplatform.entity;
 
-import com.example.foodorderplatform.dto.BusinessInfoRequestDto;
+import com.example.foodorderplatform.dto.BusinessInfoDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import java.util.UUID;
@@ -31,7 +31,7 @@ public class BusinessInfo {
 	@JoinColumn(name = "store_id")
 	private Store store;
 
-	public BusinessInfo(BusinessInfoRequestDto requestDto){
+	public BusinessInfo(BusinessInfoDto requestDto){
 		this.businessRegistrationNumber = requestDto.getBusinessRegistrationNumber();
 		this.businessName = requestDto.getBusinessName();
 		this.ownerName = requestDto.getOwnerName();

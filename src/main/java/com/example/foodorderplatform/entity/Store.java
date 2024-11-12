@@ -1,7 +1,7 @@
 package com.example.foodorderplatform.entity;
 
 import com.example.foodorderplatform.auditing.Timestamped;
-import com.example.foodorderplatform.dto.StoreRequestDto;
+import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.enumclass.StoreConfirmStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -76,7 +76,7 @@ public class Store extends Timestamped {
 	@OneToOne
 	private BusinessInfo businessInfo;
 
-	public Store(User user, Region region, Address address, StoreRequestDto requestDto, BusinessInfo businessInfo){
+	public Store(User user, Region region, Address address, StoreCreateRequestDto requestDto, BusinessInfo businessInfo){
 		this.user = user;
 		this.region = region;
 		this.address = address;
