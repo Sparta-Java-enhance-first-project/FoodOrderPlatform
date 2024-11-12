@@ -32,7 +32,7 @@ public class Payment extends Timestamped {
 	private Order order;
 
 	// 사용자와의 연관 관계
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 }

@@ -40,6 +40,6 @@ public class Order extends Timestamped {
 	private Store store;
 
 	// 결제와의 연관 관계
-	@OneToOne(mappedBy = "order")
+	@OneToOne
 	private Payment payment;
 }

@@ -4,7 +4,7 @@ package com.example.foodorderplatform.enumclass;
 * check
 * */
 public enum OrderTypeEnum {
-	PACKAGE(OrderTypeEnum.Type.TAKE_OUT),	// 포장주문
+	TAKE_OUT(OrderTypeEnum.Type.TAKE_OUT),	// 포장주문
 	ONLINE(OrderTypeEnum.Type.ONLINE);			// 배달주문
 
 

@@ -1,8 +1,8 @@
 package com.example.foodorderplatform.enumclass;
 
-/*
-* check
-* */
+import lombok.Getter;
+
+@Getter
 public enum OrderStatusEnum {
 	RECEIPT(OrderStatusEnum.Status.RECEIPT),	// 주문접수
 	COOK(OrderStatusEnum.Status.COOK),			// 조리중

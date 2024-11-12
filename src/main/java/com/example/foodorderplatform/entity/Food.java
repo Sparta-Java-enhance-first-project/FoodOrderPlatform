@@ -17,7 +17,7 @@ public class Food extends Timestamped {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID foodId;
 	@Column(nullable = false)
-	private String foodNm;		// 음식 이름
+	private String foodName;		// 음식 이름
 	@Column(nullable = false)
 	private String foodDesc;	// 음식 설명
 	@Column

@@ -1,9 +1,10 @@
 package com.example.foodorderplatform.entity;
 
-import com.example.foodorderplatform.auditing.Timestamped;
+import com.example.foodorderplatform.dto.BusinessInfoRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 /*
 * check
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "p_business_info")
+@NoArgsConstructor
 public class BusinessInfo {
 
 	@Id
@@ -28,4 +30,10 @@ public class BusinessInfo {
 	@OneToOne
 	@JoinColumn(name = "store_id")
 	private Store store;
+
+	public BusinessInfo(BusinessInfoRequestDto requestDto){
+		this.businessRegistrationNumber = requestDto.getBusinessRegistrationNumber();
+		this.businessName = requestDto.getBusinessName();
+		this.ownerName = requestDto.getOwnerName();
+	}
 }

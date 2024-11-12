@@ -1,6 +1,5 @@
 package com.example.foodorderplatform.entity;
 
-import com.example.foodorderplatform.auditing.Timestamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 

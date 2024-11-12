@@ -21,7 +21,7 @@ public class FoodOrder {
 	// 주문과의 연관 관계
 	@ManyToOne
 	@JoinColumn(name = "order_id")
-	private Order oder;
+	private Order order;
 
 	// 음식과의 연관 관계
 	@ManyToOne
