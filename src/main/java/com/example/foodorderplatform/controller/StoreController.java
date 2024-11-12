@@ -4,9 +4,11 @@ import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.dto.StoreCreateResponseDto;
 import com.example.foodorderplatform.service.StoreService;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,5 +39,14 @@ public class StoreController {
     @GetMapping
     public ResponseEntity<List<StoreCreateResponseDto>> getStoreEnterRequestList(){
         return storeService.getStoreEnterRequestList();
+    }
+
+    /**
+     * 가게 개설 요청 목록 조회
+     * @return 가게 개설 요청 목록
+     */
+    @GetMapping("/{storeId}")
+    public ResponseEntity<StoreCreateResponseDto> getStoreEnterRequest(@PathVariable UUID storeId){
+        return storeService.getStoreEnterRequest(storeId);
     }
 }

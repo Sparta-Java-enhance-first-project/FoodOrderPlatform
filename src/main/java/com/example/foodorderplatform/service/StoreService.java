@@ -10,12 +10,15 @@ import com.example.foodorderplatform.entity.Region;
 import com.example.foodorderplatform.entity.Store;
 import com.example.foodorderplatform.entity.User;
 import com.example.foodorderplatform.enumclass.StoreConfirmStatus;
+import com.example.foodorderplatform.message.ExceptionMessage;
 import com.example.foodorderplatform.repository.AddressRepository;
 import com.example.foodorderplatform.repository.BusinessInfoRepository;
 import com.example.foodorderplatform.repository.RegionRepository;
 import com.example.foodorderplatform.repository.StoreRepository;
 import com.example.foodorderplatform.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,5 +62,13 @@ public class StoreService {
         List<Store> storeList = storeRepository.findAllByConfirmStatus(StoreConfirmStatus.REQUIRED);
         List<StoreCreateResponseDto> storeCreateResponseDtoList = storeList.stream().map(StoreCreateResponseDto::new).toList();
         return new ResponseEntity<>(storeCreateResponseDtoList, HttpStatus.OK);
+    }
+
+    public ResponseEntity<StoreCreateResponseDto> getStoreEnterRequest(UUID storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(
+                () -> new IllegalArgumentException(ExceptionMessage.STORE_NOT_FOUND.getMessage())
+        );
+        return new ResponseEntity<>(new StoreCreateResponseDto(store), HttpStatus.OK);
+
     }
 }
