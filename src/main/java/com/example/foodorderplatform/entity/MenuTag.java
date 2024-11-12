@@ -15,12 +15,12 @@ import java.util.UUID;
 public class MenuTag {
 	@Id
 	@GeneratedValue(strategy=GenerationType.UUID)
-	private UUID tagNo;
+	private UUID tagId;
 	@Column(nullable = false)
 	private String tag;
 
 	// 가게와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_no")
+	@JoinColumn(name = "store_id")
 	private Store store;
 }

@@ -17,7 +17,7 @@ public class Payment extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID paymentNo;
+	private UUID paymentId;
 	@Column(nullable = false)
 	private String bank;
 	@Column(nullable = false)
@@ -28,12 +28,12 @@ public class Payment extends Timestamped {
 
 	// 주문과의 연관 관계
 	@OneToOne
-	@JoinColumn(name = "order_no")
+	@JoinColumn(name = "order_id")
 	private Order order;
 
 	// 사용자와의 연관 관계
 	@OneToOne
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "user_id")
 	private User user;
 }
 

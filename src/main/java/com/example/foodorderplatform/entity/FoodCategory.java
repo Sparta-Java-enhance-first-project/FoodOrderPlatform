@@ -15,12 +15,12 @@ public class FoodCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID categoryNo;
+	private UUID categoryId;
 	@Column(nullable = false)
 	private String categoryNm;
 
 	// 음식과의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "food_no")
+	@JoinColumn(name = "food_id")
 	private Food food;
 }

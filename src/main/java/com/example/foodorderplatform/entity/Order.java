@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Order extends Timestamped {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID orderNo;
+	private UUID orderId;
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private OrderStatusEnum orderStatus;	// 주문상태
@@ -31,12 +31,12 @@ public class Order extends Timestamped {
 
 	// 유저와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	// 가게와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_no")
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	// 결제와의 연관 관계

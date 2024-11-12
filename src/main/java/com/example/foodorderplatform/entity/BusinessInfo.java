@@ -16,7 +16,7 @@ public class BusinessInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID businessInfoNo;
+	private UUID businessInfoId;
 	@Column(nullable = false)
 	private String businessRegistrationNumber;	// 사업자 등록 번호
 	@Column(nullable = false)
@@ -26,6 +26,6 @@ public class BusinessInfo {
 
 	// 가게와의 연관 관계
 	@OneToOne
-	@JoinColumn(name = "store_no")
+	@JoinColumn(name = "store_id")
 	private Store store;
 }

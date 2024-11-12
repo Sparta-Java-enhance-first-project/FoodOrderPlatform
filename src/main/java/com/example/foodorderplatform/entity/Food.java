@@ -15,7 +15,7 @@ public class Food extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID foodNo;
+	private UUID foodId;
 	@Column(nullable = false)
 	private String foodNm;		// 음식 이름
 	@Column(nullable = false)
@@ -31,12 +31,12 @@ public class Food extends Timestamped {
 
 	// 가게와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_no")
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	// 메뉴 태그와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "menu_tag_no")
+	@JoinColumn(name = "menu_tag_id")
 	private MenuTag menuTag;
 
 }

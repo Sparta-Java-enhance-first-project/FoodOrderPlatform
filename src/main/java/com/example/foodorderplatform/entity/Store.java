@@ -17,7 +17,7 @@ public class Store extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID storeNo;
+	private UUID storeId;
 	@Column(nullable = false)
 	private String storeNm;				// 가게 이름
 	@Column(nullable = false)
@@ -37,22 +37,22 @@ public class Store extends Timestamped {
 
 	// 유저와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	// 가게 카테고리와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_category_no")
+	@JoinColumn(name = "store_category_id")
 	private StoreCategory storeCategory;
 
 	// 지역과의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "region_no")
+	@JoinColumn(name = "region_id")
 	private Region region;
 
 	// 주소와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "address_no")
+	@JoinColumn(name = "address_id")
 	private Address address;
 
 	// 사업자 등록증 정보와의 관계

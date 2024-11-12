@@ -10,6 +10,7 @@ import lombok.*;
 * */
 
 @Getter
+@Setter
 @Entity
 @Table(name = "p_user")
 public class User extends Timestamped {
@@ -18,13 +19,13 @@ public class User extends Timestamped {
 	* */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userNo;
+	private Long userId;
 	@Column(nullable = false, unique = true)
-	private String userId;
+	private String userName;
+	@Column(nullable = false)
+	private String userNickName;
 	@Column(nullable = false)
 	private String userPw;
-	@Column(nullable = false)
-	private String userNm;
 	@Column(nullable = false)
 	private String userBirth;
 	@Column(nullable = false)
@@ -37,11 +38,11 @@ public class User extends Timestamped {
 
 	// 지역과의 연관관계
 	@ManyToOne
-	@JoinColumn(name = "region_no")
+	@JoinColumn(name = "region_id")
 	private Region region;
 
 	// 주소와의 연관관계
 	@ManyToOne
-	@JoinColumn(name = "address_no")
+	@JoinColumn(name = "address_id")
 	private Address address;
 }
