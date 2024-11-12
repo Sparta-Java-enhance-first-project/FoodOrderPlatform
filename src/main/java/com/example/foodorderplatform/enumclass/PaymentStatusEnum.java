@@ -1,8 +1,8 @@
 package com.example.foodorderplatform.enumclass;
 
-/*
-* check
-* */
+import lombok.Getter;
+
+@Getter
 public enum PaymentStatusEnum {
 	SUCCESS(PaymentStatusEnum.Status.SUCCESS),	// 결제승인
 	FAIL(PaymentStatusEnum.Status.FAIL),		// 결제실패
