@@ -33,12 +33,10 @@ public abstract class Timestamped {
 	@Column
 	private String modifiedBy;
 
-	@LastModifiedDate	// 삭제 시 시간 자동 저장
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime deletedAt;
 
-	@LastModifiedBy	// 삭제 시 사용자 자동 저장
 	@Column
 	private String deletedBy;
 }
