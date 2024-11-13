@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StoreRequestDto {
+public class StoreCreateRequestDto {
 
     private String storeName;			// 가게 이름
     private Boolean storeState = false;			// 운영상태
@@ -21,6 +21,6 @@ public class StoreRequestDto {
     private String ingredientOrigin;	// 원산지
     private String regionName;          // 지역 이름
     private String addressName;         // 상세 주소
-    private BusinessInfoRequestDto businessInfoRequestDto;
+    private BusinessInfoDto businessInfoDto;
 
 }

@@ -1,7 +1,7 @@
 package com.example.foodorderplatform.entity;
 
 import com.example.foodorderplatform.auditing.Timestamped;
-import com.example.foodorderplatform.dto.StoreRequestDto;
+import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.enumclass.StoreConfirmStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,7 +59,7 @@ public class Store extends Timestamped {
 
 	// 가게 카테고리와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_category_no")
+	@JoinColumn(name = "store_category_id")
 	private StoreCategory storeCategory;
 
 	// 지역과의 연관 관계
@@ -76,7 +76,7 @@ public class Store extends Timestamped {
 	@OneToOne
 	private BusinessInfo businessInfo;
 
-	public Store(User user, Region region, Address address, StoreRequestDto requestDto, BusinessInfo businessInfo){
+	public Store(User user, Region region, Address address, StoreCreateRequestDto requestDto, BusinessInfo businessInfo){
 		this.user = user;
 		this.region = region;
 		this.address = address;
@@ -89,5 +89,13 @@ public class Store extends Timestamped {
 		this.storeRestDay = requestDto.getStoreRestDay();
 		this.storeState = false;
 		this.confirmStatus = StoreConfirmStatus.REQUIRED;
+	}
+
+	public void enterConfirm(){
+		this.confirmStatus = StoreConfirmStatus.CONFIRMED;
+	}
+
+	public void enterReject(){
+		this.confirmStatus = StoreConfirmStatus.REJECTED;
 	}
 }
