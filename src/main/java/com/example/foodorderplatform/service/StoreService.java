@@ -1,6 +1,6 @@
 package com.example.foodorderplatform.service;
 
-import static com.example.foodorderplatform.message.SuccessMessage.CREATE_STORE_REQUEST_SUCCESS;
+import static com.example.foodorderplatform.message.SuccessMessage.STORE_ENTER_REQUEST_SUCCESS;
 
 import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.dto.StoreCreateResponseDto;
@@ -11,13 +11,13 @@ import com.example.foodorderplatform.entity.Store;
 import com.example.foodorderplatform.entity.User;
 import com.example.foodorderplatform.enumclass.StoreConfirmStatus;
 import com.example.foodorderplatform.message.ExceptionMessage;
+import com.example.foodorderplatform.message.SuccessMessage;
 import com.example.foodorderplatform.repository.AddressRepository;
 import com.example.foodorderplatform.repository.BusinessInfoRepository;
 import com.example.foodorderplatform.repository.RegionRepository;
 import com.example.foodorderplatform.repository.StoreRepository;
 import com.example.foodorderplatform.repository.UserRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,7 +55,7 @@ public class StoreService {
 
         // 가게 생성
         storeRepository.save(new Store(user, region, address, storeCreateRequestDto, businessInfo));
-        return new ResponseEntity<>(CREATE_STORE_REQUEST_SUCCESS.getMessage(), HttpStatus.OK);
+        return new ResponseEntity<>(STORE_ENTER_REQUEST_SUCCESS.getMessage(), HttpStatus.OK);
     }
 
     public ResponseEntity<List<StoreCreateResponseDto>> getStoreEnterRequestList() {
@@ -65,10 +65,30 @@ public class StoreService {
     }
 
     public ResponseEntity<StoreCreateResponseDto> getStoreEnterRequest(UUID storeId) {
-        Store store = storeRepository.findById(storeId).orElseThrow(
-                () -> new IllegalArgumentException(ExceptionMessage.STORE_NOT_FOUND.getMessage())
-        );
+        Store store = findStoreById(storeId);
         return new ResponseEntity<>(new StoreCreateResponseDto(store), HttpStatus.OK);
 
+    }
+
+    public ResponseEntity<String> confirmStoreEnterRequest(UUID storeId) {
+        Store store = findStoreById(storeId);
+        store.enterConfirm();
+        return new ResponseEntity<>(SuccessMessage.STORE_ENTER_REQUEST_CONFIRMED.getMessage(), HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<String> rejectStoreEnterRequest(UUID storeId) {
+        Store store = findStoreById(storeId);
+        store.enterReject();
+        return new ResponseEntity<>(SuccessMessage.STORE_ENTER_REQUEST_REJECTED.getMessage(), HttpStatus.OK);
+    }
+
+    /*
+    ------------------------------------------------[private]--------------------------------------------------------
+     */
+    private Store findStoreById(UUID storeId){
+        return storeRepository.findById(storeId).orElseThrow(
+                () -> new IllegalArgumentException(ExceptionMessage.STORE_NOT_FOUND.getMessage())
+        );
     }
 }

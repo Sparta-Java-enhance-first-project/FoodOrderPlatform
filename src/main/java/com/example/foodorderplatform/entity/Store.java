@@ -59,7 +59,7 @@ public class Store extends Timestamped {
 
 	// 가게 카테고리와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "store_category_no")
+	@JoinColumn(name = "store_category_id")
 	private StoreCategory storeCategory;
 
 	// 지역과의 연관 관계
@@ -89,5 +89,13 @@ public class Store extends Timestamped {
 		this.storeRestDay = requestDto.getStoreRestDay();
 		this.storeState = false;
 		this.confirmStatus = StoreConfirmStatus.REQUIRED;
+	}
+
+	public void enterConfirm(){
+		this.confirmStatus = StoreConfirmStatus.CONFIRMED;
+	}
+
+	public void enterReject(){
+		this.confirmStatus = StoreConfirmStatus.REJECTED;
 	}
 }
