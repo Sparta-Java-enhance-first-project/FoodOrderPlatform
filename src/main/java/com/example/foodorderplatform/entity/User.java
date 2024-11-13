@@ -79,4 +79,8 @@ public class User extends Timestamped {
 	public void setRole(UserRoleEnum role){
 		this.role = role;
 	}
+
+	public void setUserPw(String userPw){
+		this.userPw = userPw;
+	}
 }

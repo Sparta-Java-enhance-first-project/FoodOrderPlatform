@@ -39,8 +39,9 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<String> signup(SignupRequestDto requestDto) {
+        String password = passwordEncoder.encode(requestDto.getUserPw());
         User user = new User(requestDto);
-
+        user.setUserPw(password);
         if (requestDto.getRole() == UserRoleEnum.ADMIN) {
 
             if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {

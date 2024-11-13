@@ -4,7 +4,6 @@ import com.example.foodorderplatform.dto.LoginRequestDto;
 import com.example.foodorderplatform.enumclass.UserRoleEnum;
 import com.example.foodorderplatform.jwt.JwtUtil;
 import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,7 +35,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequestDto.getUsername(),
-                            loginRequestDto.getPassword(),
+                            loginRequestDto.getUserPw(),
                             null
                     )
             );
@@ -54,6 +53,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String username = ((UserDetailsImpl)authResult.getPrincipal()).getUsername();
         UserRoleEnum role = ((UserDetailsImpl)authResult.getPrincipal()).getUser().getRole();
+
+        String token = jwtUtil.createToken(username, role);
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
     }
 
     @Override
