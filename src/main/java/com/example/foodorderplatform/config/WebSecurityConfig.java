@@ -63,8 +63,7 @@ public class WebSecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/api/search").permitAll()
-                        .requestMatchers("/api/users").permitAll()
-                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/user").permitAll()
                         .anyRequest().authenticated()
                 );
 

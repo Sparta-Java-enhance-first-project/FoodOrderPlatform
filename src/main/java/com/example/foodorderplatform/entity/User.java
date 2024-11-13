@@ -41,7 +41,7 @@ public class User extends Timestamped {
 
 	// 지역과의 연관관계
 	@ManyToOne
-	@JoinColumn(name = "region_no")
+	@JoinColumn(name = "region_id")
 	private Region region;
 
 	// 주소와의 연관관계
