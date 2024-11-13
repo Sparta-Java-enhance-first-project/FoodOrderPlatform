@@ -14,7 +14,7 @@ public class FoodOrder {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID foodOrderId;
+	private UUID id;
 	@Column(nullable = false)
 	private Integer foodCnt;	// 음식개수
 

@@ -25,7 +25,7 @@ public class Region extends Timestamped {
 	@Column(nullable = false)
 	private String regionName;
 
-	@OneToMany(mappedBy = "userId")
+	@OneToMany(mappedBy = "id")
 	private List<User> userList = new ArrayList<>();
 
 	public Region(String regionName){
