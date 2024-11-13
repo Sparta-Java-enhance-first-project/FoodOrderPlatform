@@ -4,6 +4,7 @@ import static com.example.foodorderplatform.message.SuccessMessage.*;
 
 import com.example.foodorderplatform.dto.UserInfoRequestDto;
 import com.example.foodorderplatform.entity.Address;
+import com.example.foodorderplatform.enumclass.UserRoleEnum;
 import com.example.foodorderplatform.repository.AddressRepository;
 import com.example.foodorderplatform.dto.SignupRequestDto;
 import com.example.foodorderplatform.dto.UserInfoResponseDto;
@@ -14,8 +15,10 @@ import com.example.foodorderplatform.repository.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +32,23 @@ public class UserService {
     private final RegionRepository regionRepository;
     private final AddressRepository addressRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
+    @Value(value = "${user.admin.key}")
+    private String ADMIN_TOKEN;
+
+    @Transactional
     public ResponseEntity<String> signup(SignupRequestDto requestDto) {
         User user = new User(requestDto);
+
+        if (requestDto.getRole() == UserRoleEnum.ADMIN) {
+
+            if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
+                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+            }
+             user.setRole(UserRoleEnum.ADMIN);
+        }
+
         Optional<Region> region = regionRepository.findByRegionName(requestDto.getRegionName());
         if (region.isPresent()){
             user.setRegion(region.get());
