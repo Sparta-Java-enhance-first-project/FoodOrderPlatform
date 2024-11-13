@@ -4,8 +4,14 @@ import com.example.foodorderplatform.dto.SignupRequestDto;
 import com.example.foodorderplatform.dto.UserInfoRequestDto;
 import com.example.foodorderplatform.dto.UserInfoResponseDto;
 import com.example.foodorderplatform.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,22 +19,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.*;
+
+import static com.example.foodorderplatform.message.SuccessMessage.SIGNUP_SUCCESS;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
+@Slf4j(topic = "User")
 public class UserController {
 
     private final UserService userService;
 
-    /**
-     * 회원 가입
-     * @param requestDto : 회원가입 정보
-     * @return : 회원 가입 완료 메세지
-     */
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignupRequestDto requestDto){
+    @PostMapping
+    public ResponseEntity<String> signup(@Valid SignupRequestDto requestDto, BindingResult bindingResult) {
+        // Validation 예외처리
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        if(fieldErrors.size() > 0) {
+            JSONObject errors= new JSONObject();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                String fieldErrorMessage = fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage();
+                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+                log.error(fieldErrorMessage);
+            }
+            return new ResponseEntity<>(errors.toString(), HttpStatus.OK);
+        }
+
         return userService.signup(requestDto);
     }
+
 
     /**
      * 마이 페이지 유저 정보 조회

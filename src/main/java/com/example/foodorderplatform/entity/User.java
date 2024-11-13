@@ -22,7 +22,7 @@ public class User extends Timestamped {
 	* */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
+	private Long id;
 	@Column(nullable = false, unique = true)
 	private String userName;
 	@Column(nullable = false)
@@ -56,7 +56,7 @@ public class User extends Timestamped {
 		this.userEmail = requestDto.getUserEmail();
 		this.userBirth = requestDto.getUserBirth();
 		this.userTel = requestDto.getUserTel();
-		this.role = requestDto.isAdmin() ? UserRoleEnum.USER : UserRoleEnum.ADMIN;
+		this.role = requestDto.getRole();
 	}
 
 	public void updateUser(UserInfoRequestDto requestDto){
@@ -74,5 +74,9 @@ public class User extends Timestamped {
 
 	public void setAddress(Address address){
 		this.address = address;
+	}
+
+	public void setRole(UserRoleEnum role){
+		this.role = role;
 	}
 }

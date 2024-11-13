@@ -14,7 +14,7 @@ import java.util.UUID;
 public class FoodCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID foodCartId;
+	private UUID id;
 	@Column(nullable = false)
 	private Integer foodCnt;
 

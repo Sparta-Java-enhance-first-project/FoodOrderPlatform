@@ -1,6 +1,7 @@
 package com.example.foodorderplatform.dto;
 
 
+import com.example.foodorderplatform.enumclass.UserRoleEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -19,5 +20,6 @@ public class SignupRequestDto {
     private String userEmail;
     private String regionName;
     private String addressName;
-    private boolean isAdmin = false;
+    private UserRoleEnum role;
+    private String adminToken = "";
 }

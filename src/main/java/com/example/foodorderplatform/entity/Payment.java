@@ -17,7 +17,7 @@ public class Payment extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID paymentId;
+	private UUID id;
 	@Column(nullable = false)
 	private String bank;
 	@Column(nullable = false)

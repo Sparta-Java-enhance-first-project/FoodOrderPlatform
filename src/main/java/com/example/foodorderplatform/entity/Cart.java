@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID cartId;
+	private UUID id;
 
 	// 가게와의 연관 관계
 	@ManyToOne

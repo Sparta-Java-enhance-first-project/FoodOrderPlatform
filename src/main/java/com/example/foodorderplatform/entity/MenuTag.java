@@ -15,7 +15,7 @@ import java.util.UUID;
 public class MenuTag {
 	@Id
 	@GeneratedValue(strategy=GenerationType.UUID)
-	private UUID tagId;
+	private UUID id;
 	@Column(nullable = false)
 	private String tag;
 
