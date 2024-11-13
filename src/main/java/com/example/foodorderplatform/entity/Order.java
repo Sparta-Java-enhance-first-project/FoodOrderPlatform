@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Order extends Timestamped {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID orderId;
+	private UUID id;
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private OrderStatusEnum orderStatus;	// 주문상태
