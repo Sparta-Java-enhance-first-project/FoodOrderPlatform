@@ -1,8 +1,8 @@
 package com.example.foodorderplatform.enumclass;
 
-/*
-* check
-* */
+import lombok.Getter;
+
+@Getter
 public enum OrderTypeEnum {
 	TAKE_OUT(OrderTypeEnum.Type.TAKE_OUT),	// 포장주문
 	ONLINE(OrderTypeEnum.Type.ONLINE);			// 배달주문

@@ -14,15 +14,15 @@ import java.util.UUID;
 public class FoodCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID cartId;
+	private UUID foodCartId;
 	@Column(nullable = false)
 	private Integer foodCnt;
 
 	@ManyToOne
-	@JoinColumn(name = "cart_no")
+	@JoinColumn(name = "cart_id")
 	private Cart cart;
 
 	@ManyToOne
-	@JoinColumn(name = "food_no")
+	@JoinColumn(name = "food_id")
 	private Food food;
 }

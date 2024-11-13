@@ -23,6 +23,6 @@ public class AiScript extends Timestamped {
 	private String scriptAnswer;	// 스크립트 답변
 
 	@ManyToOne
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "user_id")
 	private User user;
 }
