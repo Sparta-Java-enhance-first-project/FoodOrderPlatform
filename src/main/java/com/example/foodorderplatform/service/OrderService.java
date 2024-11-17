@@ -39,6 +39,7 @@ public class OrderService {
     private final FoodRepository foodRepository;
     private final FoodOrderRepository foodOrderRepository;
     private final OrderRepository orderRepository;
+    private final FoodCartRepository foodCartRepository;
 
     public ResponseEntity<String> paymentRequest(OrderRequestDto orderRequestDto, User user) {
         try {
@@ -75,7 +76,7 @@ public class OrderService {
 
             LocalDateTime now = LocalDateTime.now();
             String userName = user.getUserName();
-            List<FoodCart> foodCartList = cartRepository.findAllByCart_IdAndDeletedAtIsNull(orderRequestDto.getCartId());
+            List<FoodCart> foodCartList = foodCartRepository.findAllByCart_IdAndDeletedAtIsNull(orderRequestDto.getCartId());
             for (FoodCart foodCart : foodCartList) {
                 foodCart.setFoodCnt(0);
                 foodCart.setDeletedAt(now);
@@ -100,7 +101,7 @@ public class OrderService {
 
     public ResponseEntity<OrderDetailResponseDto> getOrderDetails(UUID orderId) {
         Order order = orderRepository.findById(orderId).orElse(null);
-        List<FoodOrder> foodOrderList = orderRepository.findAllByOrder_id(orderId);
+        List<FoodOrder> foodOrderList = foodOrderRepository.findAllByOrder_id(orderId);
 
         OrderDetailResponseDto orderDetailResponseDto = new OrderDetailResponseDto(order, foodOrderList);
 

@@ -16,5 +16,5 @@ public interface CartRepository extends JpaRepository<Cart, UUID> {
 
     Optional<Cart> findByIdAndDeletedAtIsNull(UUID cartId);
 
-    List<FoodCart> findAllByCart_IdAndDeletedAtIsNull(UUID cartId);
+    //List<Cart> findAllByCart_IdAndDeletedAtIsNull(UUID cartId);
 }

@@ -62,7 +62,7 @@ public class CartService {
             Food food = foodRepository.findById(foodId).orElse(null);
 
             Cart cart = cartRepository.findByUser_idAndStore_id(user.getId(), store.getId()).orElse(new Cart(user, store));
-            FoodCart foodCart = foodCartRepository.findByFood_idAnAndCart_idAndDeletedAtIsNull(food.getId(), cart.getId())
+            FoodCart foodCart = foodCartRepository.findByFood_idAndCart_idAndDeletedAtIsNull(food.getId(), cart.getId())
                     .orElse(new FoodCart(cart, food));
 
             foodCart.setFoodCnt(foodCart.getFoodCnt() + foodAddCount);
@@ -83,7 +83,7 @@ public class CartService {
         UUID foodId = foodCartRequestDto.getFoodId();
         int foodCount = foodCartRequestDto.getFoodCount();
         try {
-            FoodCart foodCart = foodCartRepository.findByFood_idAnAndCart_idAndDeletedAtIsNull(foodId, cartId).orElse(null);
+            FoodCart foodCart = foodCartRepository.findByFood_idAndCart_idAndDeletedAtIsNull(foodId, cartId).orElse(null);
             foodCart.setFoodCnt(foodCount);
 
             responseMessage = UPDATE_FOODCOUNT_SUCCESS.getMessage();
@@ -99,7 +99,7 @@ public class CartService {
         UUID foodId = foodCartRequestDto.getFoodId();
         int foodCount = foodCartRequestDto.getFoodCount();
         try {
-            FoodCart foodCart = foodCartRepository.findByFood_idAnAndCart_idAndDeletedAtIsNull(foodId, cartId).orElse(null);
+            FoodCart foodCart = foodCartRepository.findByFood_idAndCart_idAndDeletedAtIsNull(foodId, cartId).orElse(null);
             foodCart.setFoodCnt(foodCount);
             foodCart.setDeletedAt(LocalDateTime.now());
             foodCart.setDeletedBy(userName);
