@@ -32,4 +32,8 @@ public class FoodTag extends Timestamped {
 		this.store = store;
 		this.foodTagName = foodTagName;
 	}
+
+	public void updateFoodTagName(String foodTagName) {
+		this.foodTagName = foodTagName;
+	}
 }

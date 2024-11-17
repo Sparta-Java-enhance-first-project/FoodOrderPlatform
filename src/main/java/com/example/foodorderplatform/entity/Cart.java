@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "p_cart")
@@ -32,7 +33,7 @@ public class Cart extends Timestamped {
 	private User user;
 
 	@OneToMany(mappedBy = "cart")
-	private List<FoodCart> orderList = new ArrayList<>();
+	private List<FoodCart> foodCarts;
 
 	public Cart(User user, Store store){
 		this.user = user;

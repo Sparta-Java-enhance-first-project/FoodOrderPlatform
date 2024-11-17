@@ -1,6 +1,6 @@
 package com.example.foodorderplatform.service;
 
-import static com.example.foodorderplatform.message.ExceptionMessage.Food_NOT_FOUND;
+import static com.example.foodorderplatform.message.ExceptionMessage.FOOD_NOT_FOUND;
 import static com.example.foodorderplatform.message.ExceptionMessage.STORE_NOT_FOUND;
 import static com.example.foodorderplatform.message.SuccessMessage.CREATE_FOOD_SUCCESS;
 import static com.example.foodorderplatform.message.SuccessMessage.UPDATE_FOOD_SUCCESS;
@@ -68,7 +68,7 @@ public class FoodService {
 
     private Food findFoodById(UUID foodId){
         return foodRepository.findById(foodId).orElseThrow(
-                () -> new IllegalArgumentException(Food_NOT_FOUND.getMessage())
+                () -> new IllegalArgumentException(FOOD_NOT_FOUND.getMessage())
         );
     }
 

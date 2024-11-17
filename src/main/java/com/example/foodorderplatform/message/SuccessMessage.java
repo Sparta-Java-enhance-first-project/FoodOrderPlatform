@@ -20,9 +20,8 @@ public enum SuccessMessage {
     UPDATE_ORDER_SUCCESS("주문을 수정하였습니다."),
     UPDATE_ORDER_FAIL("주문을 수정할 수 없습니다."),
     DELETE_ORDER_SUCCESS("주문을 취소하였습니다."),
-    DELETE_ORDER_FAIL("주문을 취소할 수 없습니다.")
-    ;
-
+    DELETE_ORDER_FAIL("주문을 취소할 수 없습니다."),
+    UPDATE_FOOD_TAG_SUCCESS("음식 태그 수정이 완료되었습니다.");
     private final String message;
 
     SuccessMessage(String message){
