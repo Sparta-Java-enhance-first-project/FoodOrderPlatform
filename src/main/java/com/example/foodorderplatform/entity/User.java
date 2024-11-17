@@ -4,9 +4,20 @@ import com.example.foodorderplatform.auditing.Timestamped;
 import com.example.foodorderplatform.dto.SignupRequestDto;
 import com.example.foodorderplatform.dto.UserInfoRequestDto;
 import com.example.foodorderplatform.enumclass.UserRoleEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /*
 * check
@@ -82,5 +93,11 @@ public class User extends Timestamped {
 
 	public void setUserPw(String userPw){
 		this.userPw = userPw;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		User user = (User) o;
+		return this.id.equals(user.getId());
 	}
 }
