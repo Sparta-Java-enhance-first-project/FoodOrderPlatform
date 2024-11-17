@@ -3,18 +3,11 @@ package com.example.foodorderplatform.entity;
 import com.example.foodorderplatform.auditing.Timestamped;
 import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.enumclass.StoreConfirmStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -74,7 +67,14 @@ public class Store extends Timestamped {
 
 	// 사업자 등록증 정보와의 관계
 	@OneToOne
+	@JoinColumn(name = "business_info_id")
 	private BusinessInfo businessInfo;
+
+	@OneToMany(mappedBy = "store")
+	private List<Order> orderList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "store")
+	private List<Food> foodList = new ArrayList<>();
 
 	public Store(User user, Region region, Address address, StoreCreateRequestDto requestDto, BusinessInfo businessInfo){
 		this.user = user;

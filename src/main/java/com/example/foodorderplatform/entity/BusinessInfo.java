@@ -1,5 +1,6 @@
 package com.example.foodorderplatform.entity;
 
+import com.example.foodorderplatform.auditing.Timestamped;
 import com.example.foodorderplatform.dto.BusinessInfoDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "p_business_info")
 @NoArgsConstructor
-public class BusinessInfo {
+public class BusinessInfo extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -27,8 +28,7 @@ public class BusinessInfo {
 	private String ownerName;					// 대표자명
 
 	// 가게와의 연관 관계
-	@OneToOne
-	@JoinColumn(name = "store_id")
+	@OneToOne(mappedBy = "businessInfo")
 	private Store store;
 
 	public BusinessInfo(BusinessInfoDto requestDto){

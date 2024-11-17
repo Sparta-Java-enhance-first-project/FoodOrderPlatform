@@ -7,6 +7,7 @@ public enum ExceptionMessage {
     STORE_NOT_FOUND("가게를 찾을 수 없습니다."),
     Food_NOT_FOUND("음식을 찾을 수 없습니다.");
 
+
     private final String message;
 
     ExceptionMessage(String message) {

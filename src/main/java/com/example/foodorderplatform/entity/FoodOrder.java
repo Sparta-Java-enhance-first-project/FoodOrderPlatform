@@ -1,7 +1,10 @@
 package com.example.foodorderplatform.entity;
 
+import com.example.foodorderplatform.auditing.Timestamped;
+import com.example.foodorderplatform.dto.FoodCartRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 /*
@@ -10,7 +13,8 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "p_food_order")
-public class FoodOrder {
+@NoArgsConstructor
+public class FoodOrder extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -27,4 +31,10 @@ public class FoodOrder {
 	@ManyToOne
 	@JoinColumn(name = "food_id")
 	private Food food;
+
+	public FoodOrder(Order order, Food food, int foodCnt) {
+		this.order = order;
+		this.food = food;
+		this.foodCnt = foodCnt;
+	}
 }

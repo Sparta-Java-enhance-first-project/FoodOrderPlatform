@@ -2,6 +2,7 @@ package com.example.foodorderplatform.auditing;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -34,10 +35,12 @@ public abstract class Timestamped {
 	private String modifiedBy;
 
 	@Column
+	@Setter
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime deletedAt;
 
-	@LastModifiedBy	// 삭제 시 사용자 자동 저장
 	@Column
+	@Setter
 	private String deletedBy;
+
 }

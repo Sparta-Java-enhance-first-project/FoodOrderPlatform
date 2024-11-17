@@ -65,7 +65,8 @@ public class UserService {
     }
 
     public ResponseEntity<UserInfoResponseDto> getUserInfo() {
-        User user = userRepository.findByUserName("yshong1998").orElseThrow(
+
+        User user = userRepository.findByUserName(null).orElseThrow(
                 () -> new NullPointerException("존재하지 않는 회원입니다.")
         );
         return new ResponseEntity<>(new UserInfoResponseDto(user), HttpStatus.OK);

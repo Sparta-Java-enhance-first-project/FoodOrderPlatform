@@ -1,5 +1,6 @@
 package com.example.foodorderplatform.entity;
 
+import com.example.foodorderplatform.auditing.Timestamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "p_food_category")
-public class FoodCategory {
+public class FoodCategory extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)

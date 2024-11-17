@@ -1,5 +1,6 @@
 package com.example.foodorderplatform.entity;
 
+import com.example.foodorderplatform.auditing.Timestamped;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "p_food_tag")
 @NoArgsConstructor
-public class FoodTag {
+public class FoodTag extends Timestamped {
 	@Id
 	@GeneratedValue(strategy=GenerationType.UUID)
 	private UUID id;

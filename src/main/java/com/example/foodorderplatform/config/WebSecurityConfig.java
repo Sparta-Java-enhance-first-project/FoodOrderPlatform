@@ -5,7 +5,6 @@ import com.example.foodorderplatform.security.JwtAuthenticationFilter;
 import com.example.foodorderplatform.security.JwtAuthorizationFilter;
 import com.example.foodorderplatform.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -60,8 +59,6 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests((authorizeRequests) ->
                 authorizeRequests
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/").permitAll()
                         .requestMatchers("/api/search/").permitAll()
                         .requestMatchers("/api/user/signup", "/api/login").permitAll()
                         .anyRequest().authenticated()
