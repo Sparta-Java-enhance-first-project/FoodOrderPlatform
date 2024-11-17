@@ -44,8 +44,9 @@ public class FoodController {
     }
     //음식 수정
     @PatchMapping("/{foodId}")
-    public ResponseEntity<String> updateFood(@PathVariable UUID storeId, @PathVariable UUID foodId,
-                                                      @RequestBody FoodRequestDto requestDto){
+    public ResponseEntity<String> updateFood(@PathVariable UUID storeId,
+                                             @PathVariable UUID foodId,
+                                             @RequestBody FoodRequestDto requestDto){
         return foodService.updateFood(storeId, foodId, requestDto);
     }
 
