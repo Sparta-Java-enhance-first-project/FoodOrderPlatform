@@ -9,6 +9,7 @@ public enum ExceptionMessage {
     FOOD_NOT_FOUND("음식을 찾을 수 없습니다."),
     FOOD_TAG_NOT_FOUND("음식 태그를 찾을 수 없습니다.");
 
+
     private final String message;
 
     ExceptionMessage(String message) {

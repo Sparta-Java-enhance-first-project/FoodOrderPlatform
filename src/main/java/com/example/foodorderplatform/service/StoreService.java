@@ -22,6 +22,8 @@ import com.example.foodorderplatform.repository.UserRepository;
 import com.example.foodorderplatform.util.UserValidator;
 import java.util.List;
 import java.util.UUID;
+
+import com.example.foodorderplatform.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

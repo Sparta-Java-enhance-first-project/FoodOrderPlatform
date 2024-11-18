@@ -5,6 +5,7 @@ import com.example.foodorderplatform.dto.FoodRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.List;
 import java.util.UUID;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +43,16 @@ public class Food extends Timestamped {
 	@ManyToOne
 	@JoinColumn(name = "food_tag_id")
 	private FoodTag foodTag;
+
+	@OneToMany(mappedBy = "food")
+	private List<FoodCategory> foodCategoryList;
+
+	@OneToMany(mappedBy = "food")
+	private List<FoodCart> foodCartList;
+
+	@OneToMany(mappedBy = "food")
+	private List<FoodOrder> foodOrderList;
+
 
 	public Food(Store store, FoodTag foodTag, FoodRequestDto requestDto){
 		this.store = store;

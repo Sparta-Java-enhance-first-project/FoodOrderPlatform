@@ -69,6 +69,7 @@ public class User extends Timestamped {
 		this.userBirth = requestDto.getUserBirth();
 		this.userTel = requestDto.getUserTel();
 		this.role = requestDto.getRole();
+
 	}
 
 	public void updateUser(UserInfoRequestDto requestDto){
