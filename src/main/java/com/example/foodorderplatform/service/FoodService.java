@@ -49,7 +49,7 @@ public class FoodService {
     public ResponseEntity<List<FoodResponseDto>> getFoodList(UUID storeId, String foodTagName) {
         List<Food> foodList;
         if (foodTagName.equals("추천")){
-            foodList = foodRepository.findAllByStore_IdAndRecommandIsTrue(storeId, true);
+            foodList = foodRepository.findAllByStore_IdAndRecommand(storeId, true);
         } else {
             FoodTag foodTag = foodTagRepository.findByStore_IdAndFoodTagName(storeId, foodTagName);
             foodList = foodTag.getFoodList();

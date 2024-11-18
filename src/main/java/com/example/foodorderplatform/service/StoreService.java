@@ -101,8 +101,12 @@ public class StoreService {
 
     // 가게 목록 조회
     public ResponseEntity<List<StoreInfoResponseDto>> getStoreList(String storeCategoryName) {
-        List<Store> storeList = storeRepository.findAllByStoreCategory_StoreCategoryName(
-                storeCategoryName);
+        List<Store> storeList;
+        if (storeCategoryName.equals("전체")){
+            storeList = storeRepository.findAll();
+        } else {
+            storeList = storeRepository.findAllByStoreCategory_StoreCategoryName(storeCategoryName);
+        }
         List<StoreInfoResponseDto> storeInfoResponseDtoList = storeList.stream().map(StoreInfoResponseDto::new).toList();
         return new ResponseEntity<>(storeInfoResponseDtoList, HttpStatus.OK);
     }

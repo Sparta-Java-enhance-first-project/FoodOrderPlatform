@@ -9,6 +9,6 @@ public interface FoodRepository extends JpaRepository<Food, UUID> {
 
     List<Food> findAllByStore_Id(UUID storeId);
     void deleteById(UUID id);
-    List<Food> findAllByStore_IdAndRecommandIsTrue(UUID storeId, Boolean recommand);
+    List<Food> findAllByStore_IdAndRecommand(UUID storeId, boolean recommand);
 
 }
