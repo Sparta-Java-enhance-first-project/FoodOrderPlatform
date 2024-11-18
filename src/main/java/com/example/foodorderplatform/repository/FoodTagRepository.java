@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FoodTagRepository extends JpaRepository<FoodTag, UUID> {
     FoodTag findByFoodTagName(String foodTagName);
-    List<FoodTag> findAllByStore_Id(UUID storeId);
+    FoodTag findByStore_IdAndFoodTagName(UUID storeId, String foodTagName);
+    List<FoodTag> findAllByStore_IdAndDeletedAtNull(UUID storeId);
 }

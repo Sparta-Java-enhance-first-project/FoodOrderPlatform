@@ -43,4 +43,8 @@ public abstract class Timestamped {
 	@Setter
 	private String deletedBy;
 
+	public void setDeletedByUser(String username){
+		this.deletedBy = username;
+		this.deletedAt = LocalDateTime.now();
+	}
 }

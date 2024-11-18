@@ -28,7 +28,8 @@ public class BusinessInfo extends Timestamped {
 	private String ownerName;					// 대표자명
 
 	// 가게와의 연관 관계
-	@OneToOne(mappedBy = "businessInfo")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	public BusinessInfo(BusinessInfoDto requestDto){

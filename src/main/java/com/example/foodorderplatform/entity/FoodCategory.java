@@ -21,7 +21,7 @@ public class FoodCategory extends Timestamped {
 	private String categoryName;
 
 	// 음식과의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "food_id")
 	private Food food;
 }

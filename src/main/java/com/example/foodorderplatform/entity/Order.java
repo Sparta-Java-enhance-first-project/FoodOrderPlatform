@@ -39,12 +39,12 @@ public class Order extends Timestamped {
 	private ReceiveTypeEnum receiveType;
 
 	// 유저와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
 	// 가게와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
 	private Store store;
 

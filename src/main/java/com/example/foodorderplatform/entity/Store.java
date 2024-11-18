@@ -4,7 +4,6 @@ import com.example.foodorderplatform.auditing.Timestamped;
 import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.enumclass.StoreConfirmStatus;
 import jakarta.persistence.*;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,27 +45,27 @@ public class Store extends Timestamped {
 	private StoreConfirmStatus confirmStatus;
 
 	// 유저와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
 	// 가게 카테고리와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_category_id")
 	private StoreCategory storeCategory;
 
 	// 지역과의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "region_id")
 	private Region region;
 
 	// 주소와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
 
 	// 사업자 등록증 정보와의 관계
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "business_info_id")
 	private BusinessInfo businessInfo;
 

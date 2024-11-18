@@ -21,12 +21,11 @@ public class FoodCart extends Timestamped {
 	@Column(nullable = false)
 	private Integer foodCnt;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cart_id")
 	private Cart cart;
 
-	@ManyToOne
-//	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "food_id")
 	private Food food;
 

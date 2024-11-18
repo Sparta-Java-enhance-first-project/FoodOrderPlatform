@@ -10,6 +10,7 @@ public enum SuccessMessage {
     SIGNUP_SUCCESS("회원가입이 완료되었습니다."),
     CREATE_FOOD_SUCCESS("음식 생성이 완료되었습니다."),
     UPDATE_FOOD_SUCCESS("음식 수정이 완료되었습니다."),
+    DELETE_FOOD_SUCCESS("음식 삭제가 완료되었습니다."),
     CREATE_FOOD_TAG_SUCCESS("음식 태그 생성이 완료되었습니다."),
     CREATE_CARTINFO_SUCCESS("음식이 장바구니에 담겼습니다."),
     UPDATE_FOODCOUNT_SUCCESS("음식의 개수를 변경했습니다."),
@@ -21,7 +22,8 @@ public enum SuccessMessage {
     UPDATE_ORDER_FAIL("주문을 수정할 수 없습니다."),
     DELETE_ORDER_SUCCESS("주문을 취소하였습니다."),
     DELETE_ORDER_FAIL("주문을 취소할 수 없습니다."),
-    UPDATE_FOOD_TAG_SUCCESS("음식 태그 수정이 완료되었습니다.");
+    UPDATE_FOOD_TAG_SUCCESS("음식 태그 수정이 완료되었습니다."),
+    DELETE_FOOD_TAG_SUCCESS("음식 태그 삭제가 완료되었습니다.");
     private final String message;
 
     SuccessMessage(String message){

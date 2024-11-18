@@ -33,11 +33,11 @@ public class Payment extends Timestamped {
 
 	// 주문과의 연관 관계
 	@Setter
-	@OneToOne(mappedBy = "payment")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "payment")
 	private Order order;
 
 	// 사용자와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
