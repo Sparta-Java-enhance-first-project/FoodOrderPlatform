@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +27,6 @@ import java.util.UUID;
 import static com.example.foodorderplatform.enumclass.OrderStatusEnum.PAYMENT_COMPLETED;
 import static com.example.foodorderplatform.message.ErrorMessage.*;
 import static com.example.foodorderplatform.message.SuccessMessage.*;
-import static java.rmi.server.LogStream.log;
 
 @Transactional
 @Slf4j(topic = "OrderService")
@@ -45,10 +43,12 @@ public class OrderService {
 
     public ResponseEntity<String> paymentRequest(OrderRequestDto orderRequestDto, User user) {
         try {
-            Payment payment = new Payment(user, orderRequestDto.getBank(), orderRequestDto.getOrderPrice());
+            Payment payment = paymentRepository.save(new Payment(user, orderRequestDto.getBank(), orderRequestDto.getOrderPrice()));
+//            Payment payment = new Payment(user, orderRequestDto.getBank(), orderRequestDto.getOrderPrice());
+//            paymentRepository.save(payment);
 //            PaymentStatusEnum paymentResult = postCallResultPayment(payment.getId(), orderRequestDto, user);
             PaymentStatusEnum paymentResult = PaymentStatusEnum.SUCCESS;
-
+//
             OrderStatusEnum orderStatus;
             if (paymentResult.equals(PaymentStatusEnum.SUCCESS)) {
                 orderStatus = PAYMENT_COMPLETED;
@@ -59,17 +59,12 @@ public class OrderService {
             Cart cart = cartRepository.findByIdAndDeletedAtIsNull(orderRequestDto.getCartId()).orElse(null);
             Store store = cart.getStore();
 
-
-            Order order = new Order(store, user, orderStatus, orderRequestDto);
-//            Order order = new Order(orderStatus, orderRequestDto);
-
-            paymentRepository.save(payment);
-            order.setPayment(payment);
+//            Order order = orderRepository.save(new Order(store, user, payment, orderStatus ,orderRequestDto));
+            Order order = new Order(store, user, payment, orderStatus, orderRequestDto);
             orderRepository.save(order);
 
-
             FoodOrder foodOrder;
-            for (FoodCartRequestDto foodCartRequestDto : orderRequestDto.getFoodCarRequestList()) {
+            for (FoodCartRequestDto foodCartRequestDto : orderRequestDto.getFoodCartRequestList()) {
                 Optional<Food> food = foodRepository.findById(foodCartRequestDto.getFoodId());
                 if (food.isPresent()) {
                     foodOrder = new FoodOrder(order, food.get(), foodCartRequestDto.getFoodCount());
@@ -81,16 +76,16 @@ public class OrderService {
                 return new ResponseEntity<>(CREATE_ORDER_FAIL.getMessage(), HttpStatus.OK);
             }
 
-//            LocalDateTime now = LocalDateTime.now();
-//            String userName = user.getUserName();
-//            List<FoodCart> foodCartList = foodCartRepository.findAllByCart_idAndDeletedAtIsNull(orderRequestDto.getCartId());
-//            for (FoodCart foodCart : foodCartList) {
-//                foodCart.setFoodCnt(0);
-//                foodCart.setDeletedAt(now);
-//                foodCart.setDeletedBy(userName);
-//            }
-//            cart.setDeletedAt(now);
-//            cart.setDeletedBy(userName);
+            LocalDateTime now = LocalDateTime.now();
+            String userName = user.getUserName();
+            List<FoodCart> foodCartList = foodCartRepository.findAllByCart_idAndDeletedAtIsNull(orderRequestDto.getCartId());
+            for (FoodCart foodCart : foodCartList) {
+                foodCart.setFoodCnt(0);
+                foodCart.setDeletedAt(now);
+                foodCart.setDeletedBy(userName);
+            }
+            cart.setDeletedAt(now);
+            cart.setDeletedBy(userName);
 
 
             return new ResponseEntity<>(CREATE_ORDER_SUCCESS.getMessage(), HttpStatus.OK);
@@ -107,10 +102,9 @@ public class OrderService {
     }
 
     public ResponseEntity<OrderDetailResponseDto> getOrderDetails(UUID orderId) {
-        Order order = orderRepository.findById(orderId).orElse(null);
-        List<FoodOrder> foodOrderList = foodOrderRepository.findAllByOrder_id(orderId);
+        Order order = orderRepository.findById(orderId).orElseThrow( IllegalArgumentException::new);
 
-        OrderDetailResponseDto orderDetailResponseDto = new OrderDetailResponseDto(order, foodOrderList);
+        OrderDetailResponseDto orderDetailResponseDto = new OrderDetailResponseDto(order);
 
         return new ResponseEntity<>(orderDetailResponseDto, HttpStatus.OK);
     }
@@ -144,7 +138,8 @@ public class OrderService {
     public ResponseEntity<String> deleteOrder(UUID orderId, UserDetailsImpl userDetails) {
         try{
             Order order = orderRepository.findById(orderId).orElse(null);
-            PaymentStatusEnum paymentStatus = deleteCallResultPayment(order.getPayment());
+            // PaymentStatusEnum paymentStatus = deleteCallResultPayment(order.getPayment());
+            PaymentStatusEnum paymentStatus = PaymentStatusEnum.CANCEL;
 
             if(!order.getOrderStatus().equals(PAYMENT_COMPLETED)){
                 return new ResponseEntity<>(DELETE_ORDER_FAIL.getMessage(), HttpStatus.OK);
@@ -158,8 +153,10 @@ public class OrderService {
             List<FoodOrder> foodOrderList = foodOrderRepository.findAllByOrder_id(order.getId());
 
             LocalDateTime now = LocalDateTime.now();
+            order.setOrderStatus(OrderStatusEnum.ORDER_CANCEL);
             order.setDeletedAt(now);
             order.setDeletedBy(userDetails.getUser().getUserName());
+            payment.setPaymentStatus(paymentStatus);
             payment.setDeletedAt(now);
             payment.setDeletedBy(userDetails.getUser().getUserName());
             for (FoodOrder foodOrder : foodOrderList) {
@@ -174,16 +171,15 @@ public class OrderService {
 
     }
 
-    public ResponseEntity<StoreOrderInfoResponseDto> getStoreOrders(UUID storeId, String orderStatus) {
+    public ResponseEntity<OrderInfoResponseDto> getStoreOrders(UUID storeId, String orderStatus) {
         List<Order> orderList;
-        if (orderStatus.isEmpty() || orderStatus.isBlank()) {
+        if (orderStatus == null || orderStatus.isBlank() || orderStatus.isEmpty()) {
             orderList = orderRepository.findAllByStore_id(storeId);
         }else {
             orderList = orderRepository.findAllByStore_idAndOrderStatus(storeId, OrderStatusEnum.valueOf(orderStatus));
         }
 
-        StoreOrderInfoResponseDto storeOrderInfoResponseDto = new StoreOrderInfoResponseDto(orderList);
-
+        OrderInfoResponseDto storeOrderInfoResponseDto = new OrderInfoResponseDto(orderList);
         return new ResponseEntity<>(storeOrderInfoResponseDto, HttpStatus.OK);
     }
 

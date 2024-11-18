@@ -1,6 +1,8 @@
 package com.example.foodorderplatform.controller;
 
 import com.example.foodorderplatform.dto.*;
+import com.example.foodorderplatform.entity.Payment;
+import com.example.foodorderplatform.entity.User;
 import com.example.foodorderplatform.enumclass.BankEnum;
 import com.example.foodorderplatform.enumclass.PaymentStatusEnum;
 import com.example.foodorderplatform.security.UserDetailsImpl;
@@ -51,7 +53,8 @@ public class OrderController {
     }
 
     @GetMapping("/store/{storeId}/order")
-    public ResponseEntity<StoreOrderInfoResponseDto> getStoreOrders(@PathVariable UUID storeId, @RequestParam(required = false) String orderStatus) {
+//    public ResponseEntity<StoreOrderInfoResponseDto> getStoreOrders(@PathVariable UUID storeId, @RequestParam(required = false) String orderStatus) {
+    public ResponseEntity<OrderInfoResponseDto> getStoreOrders(@PathVariable UUID storeId, @RequestParam(required = false) String orderStatus) {
         return orderService.getStoreOrders(storeId, orderStatus);
     }
 

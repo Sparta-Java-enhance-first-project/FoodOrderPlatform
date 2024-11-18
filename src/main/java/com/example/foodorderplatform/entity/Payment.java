@@ -24,6 +24,7 @@ public class Payment extends Timestamped {
 	private UUID id;
 	@Column(nullable = false)
 	private BankEnum bank;
+	@Setter
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private PaymentStatusEnum paymentStatus;
@@ -32,7 +33,7 @@ public class Payment extends Timestamped {
 
 	// 주문과의 연관 관계
 	@Setter
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "payment")
 	private Order order;
 
 	// 사용자와의 연관 관계
@@ -46,6 +47,11 @@ public class Payment extends Timestamped {
 		this.bank = bank;
 		this.paymentStatus = PaymentStatusEnum.PAYMENT_REQUEST;
 		this.paymentPrice = paymentPrice;
+	}
+
+	public void addOrder(Order order) {
+		this.order = order;
+		order.setPayment(this); // 외래 키(연관 관계) 설정
 	}
 }
 

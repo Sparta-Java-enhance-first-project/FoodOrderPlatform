@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class OrderRequestDto {
     private UUID cartId;
-    private List<FoodCartRequestDto> foodCarRequestList;
+    private List<FoodCartRequestDto> foodCartRequestList;
     private String address;
     private String orderRequest;
     private BankEnum bank;

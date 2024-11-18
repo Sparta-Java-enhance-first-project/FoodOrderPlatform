@@ -30,7 +30,7 @@ public class Order extends Timestamped {
 	private OrderStatusEnum orderStatus;	// 주문상태
 	@Column(nullable = false)
 	private Long orderPrice;				// 통합가격
-	@Column(nullable = false)
+	@Column
 	@Enumerated(EnumType.STRING)
 	private OrderTypeEnum orderType;		// 주문 유형
 	@Column
@@ -56,16 +56,16 @@ public class Order extends Timestamped {
 	@OneToMany(mappedBy = "order")
 	private List<FoodOrder> foodOrderList;
 
-	public Order(Store store, User user, OrderStatusEnum orderStatus, OrderRequestDto orderRequest) {
+	public Order(Store store, User user, Payment payment, OrderStatusEnum orderStatus, OrderRequestDto orderRequest) {
 //	public Order(OrderStatusEnum orderStatus, OrderRequestDto orderRequest) {
 		this.store = store;
 		this.user = user;
-		this.orderStatus = orderStatus;
+		this.payment = payment;
 		this.orderPrice = orderRequest.getOrderPrice();
 		this.orderType = orderRequest.getOrderType();
 		this.receiveType = orderRequest.getReceiveType();
 		this.orderRequest = orderRequest.getOrderRequest();
-
+		this.orderStatus = orderStatus;
 	}
 	public void setOrderRequest(String orderRequest) {
 		this.orderRequest = orderRequest;
@@ -74,4 +74,5 @@ public class Order extends Timestamped {
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
+
 }
