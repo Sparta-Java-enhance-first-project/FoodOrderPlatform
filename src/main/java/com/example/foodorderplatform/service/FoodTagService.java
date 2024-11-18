@@ -42,7 +42,7 @@ public class FoodTagService {
 
     // 목록 조회
     public ResponseEntity<List<FoodTagResponseDto>> getFoodTagList(UUID storeId) {
-        List<FoodTag> foodTagList = foodTagRepository.findAllByStore_Id(storeId);
+        List<FoodTag> foodTagList = foodTagRepository.findAllByStore_IdAndDeletedAtNull(storeId);
         List<FoodTagResponseDto> foodTagResponseDtoList = foodTagList.stream().map(FoodTagResponseDto::new).toList();
         return new ResponseEntity<>(foodTagResponseDtoList, HttpStatus.OK);
     }

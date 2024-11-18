@@ -64,7 +64,7 @@ public class StoreService {
         if (!UserValidator.validateRoleUpperManager(user)){
             throw new IllegalArgumentException(USER_UNAUTHORIZED.getMessage());
         }
-        List<Store> storeList = storeRepository.findAllByConfirmStatus(StoreConfirmStatus.REQUIRED);
+        List<Store> storeList = storeRepository.findAllByConfirmStatusAndDeletedAtIsNull(StoreConfirmStatus.REQUIRED);
         List<StoreCreateResponseDto> storeCreateResponseDtoList = storeList.stream().map(StoreCreateResponseDto::new).toList();
         return new ResponseEntity<>(storeCreateResponseDtoList, HttpStatus.OK);
     }
@@ -103,9 +103,9 @@ public class StoreService {
     public ResponseEntity<List<StoreInfoResponseDto>> getStoreList(String storeCategoryName) {
         List<Store> storeList;
         if (storeCategoryName.equals("전체")){
-            storeList = storeRepository.findAll();
+            storeList = storeRepository.findAllByDeletedAtIsNull();
         } else {
-            storeList = storeRepository.findAllByStoreCategory_StoreCategoryName(storeCategoryName);
+            storeList = storeRepository.findAllByDeletedAtIsNullAndStoreCategory_StoreCategoryName(storeCategoryName);
         }
         List<StoreInfoResponseDto> storeInfoResponseDtoList = storeList.stream().map(StoreInfoResponseDto::new).toList();
         return new ResponseEntity<>(storeInfoResponseDtoList, HttpStatus.OK);
