@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,27 +54,27 @@ public class Store extends Timestamped {
 	private StoreConfirmStatus confirmStatus;
 
 	// 유저와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
 	// 가게 카테고리와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_category_id")
 	private StoreCategory storeCategory;
 
 	// 지역과의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "region_id")
 	private Region region;
 
 	// 주소와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
 
 	// 사업자 등록증 정보와의 관계
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private BusinessInfo businessInfo;
 
 	public Store(User user, Region region, Address address, StoreCreateRequestDto requestDto, BusinessInfo businessInfo){

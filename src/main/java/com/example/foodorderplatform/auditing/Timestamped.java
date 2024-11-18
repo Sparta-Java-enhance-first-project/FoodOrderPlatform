@@ -37,7 +37,11 @@ public abstract class Timestamped {
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime deletedAt;
 
-	@LastModifiedBy	// 삭제 시 사용자 자동 저장
 	@Column
 	private String deletedBy;
+
+	public void setDeletedByUser(String username){
+		this.deletedBy = username;
+		this.deletedAt = LocalDateTime.now();
+	}
 }

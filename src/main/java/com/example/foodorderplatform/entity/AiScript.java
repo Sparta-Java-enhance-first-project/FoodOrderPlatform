@@ -22,7 +22,7 @@ public class AiScript extends Timestamped {
 	@Column
 	private String scriptAnswer;	// 스크립트 답변
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 }
