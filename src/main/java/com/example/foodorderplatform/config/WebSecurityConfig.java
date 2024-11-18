@@ -26,7 +26,7 @@ public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
-
+    private final String[] permitRequests = {"/api/search/", "/api/user/signup", "/api/login", "/api/store", "api/store/{storeId}"};
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -61,9 +61,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeRequests) ->
                 authorizeRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/api/search/").permitAll()
-                        .requestMatchers("/api/user/signup", "/api/login").permitAll()
+                        .requestMatchers(permitRequests).permitAll()
                         .anyRequest().authenticated()
                 );
 

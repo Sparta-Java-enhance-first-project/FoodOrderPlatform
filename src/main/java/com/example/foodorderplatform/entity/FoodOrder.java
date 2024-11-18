@@ -19,12 +19,12 @@ public class FoodOrder {
 	private Integer foodCnt;	// 음식개수
 
 	// 주문과의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id")
 	private Order order;
 
 	// 음식과의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "food_id")
 	private Food food;
 }

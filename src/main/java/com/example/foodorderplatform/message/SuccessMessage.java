@@ -10,8 +10,10 @@ public enum SuccessMessage {
     SIGNUP_SUCCESS("회원가입이 완료되었습니다."),
     CREATE_FOOD_SUCCESS("음식 생성이 완료되었습니다."),
     UPDATE_FOOD_SUCCESS("음식 수정이 완료되었습니다."),
+    DELETE_FOOD_SUCCESS("음식 삭제가 완료되었습니다."),
     CREATE_FOOD_TAG_SUCCESS("음식 태그 생성이 완료되었습니다."),
-    UPDATE_FOOD_TAG_SUCCESS("음식 태그 수정이 완료되었습니다.");
+    UPDATE_FOOD_TAG_SUCCESS("음식 태그 수정이 완료되었습니다."),
+    DELETE_FOOD_TAG_SUCCESS("음식 태그 삭제가 완료되었습니다.");
     private final String message;
 
     SuccessMessage(String message){

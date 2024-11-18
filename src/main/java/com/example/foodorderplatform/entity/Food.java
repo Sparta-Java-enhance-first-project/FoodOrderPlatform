@@ -40,7 +40,7 @@ public class Food extends Timestamped {
 
 	// 메뉴 태그와의 연관 관계
 	@ManyToOne
-	@JoinColumn(name = "menu_tag_id")
+	@JoinColumn(name = "food_tag_id")
 	private FoodTag foodTag;
 
 	public Food(Store store, FoodTag foodTag, FoodRequestDto requestDto){

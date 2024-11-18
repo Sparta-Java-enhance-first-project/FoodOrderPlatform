@@ -27,7 +27,7 @@ public class BusinessInfo {
 	private String ownerName;					// 대표자명
 
 	// 가게와의 연관 관계
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
 	private Store store;
 
