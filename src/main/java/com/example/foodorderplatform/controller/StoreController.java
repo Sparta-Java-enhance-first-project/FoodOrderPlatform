@@ -2,11 +2,14 @@ package com.example.foodorderplatform.controller;
 
 import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.dto.StoreCreateResponseDto;
+import com.example.foodorderplatform.security.UserDetailsImpl;
 import com.example.foodorderplatform.service.StoreService;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,8 +33,8 @@ public class StoreController {
      */
 
     @PostMapping
-    public ResponseEntity<String> createStoreEnterRequest(@RequestBody StoreCreateRequestDto storeCreateRequestDto){
-        return storeService.createStoreEnterRequest(storeCreateRequestDto);
+    public ResponseEntity<String> createStoreEnterRequest(@RequestBody StoreCreateRequestDto storeCreateRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return storeService.createStoreEnterRequest(storeCreateRequestDto, userDetails);
     }
 
     /**

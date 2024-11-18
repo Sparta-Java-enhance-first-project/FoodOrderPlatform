@@ -19,6 +19,8 @@ import com.example.foodorderplatform.repository.StoreRepository;
 import com.example.foodorderplatform.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
+
+import com.example.foodorderplatform.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +40,9 @@ public class StoreService {
     private final AddressRepository addressRepository;
 
 
-    public ResponseEntity<String> createStoreEnterRequest(StoreCreateRequestDto storeCreateRequestDto) {
+    public ResponseEntity<String> createStoreEnterRequest(StoreCreateRequestDto storeCreateRequestDto, UserDetailsImpl userDetails) {
         //todo 임시, 추후 시큐리티 도입 후 userDetails를 통해 가져오도록 변경
-        User user = userRepository.findByUserName("yshong1998").get();
+        User user = userRepository.findByUserName(userDetails.getUsername()).get();
         // 지역 생성 or 조회
         Region region = regionRepository.findByRegionName(storeCreateRequestDto.getRegionName()).orElse(null);
         if (region == null){

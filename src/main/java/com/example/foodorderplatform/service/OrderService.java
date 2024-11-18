@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ import java.util.UUID;
 import static com.example.foodorderplatform.enumclass.OrderStatusEnum.PAYMENT_COMPLETED;
 import static com.example.foodorderplatform.message.ErrorMessage.*;
 import static com.example.foodorderplatform.message.SuccessMessage.*;
+import static java.rmi.server.LogStream.log;
 
 @Transactional
 @Slf4j(topic = "OrderService")
@@ -44,7 +46,8 @@ public class OrderService {
     public ResponseEntity<String> paymentRequest(OrderRequestDto orderRequestDto, User user) {
         try {
             Payment payment = new Payment(user, orderRequestDto.getBank(), orderRequestDto.getOrderPrice());
-            PaymentStatusEnum paymentResult = postCallResultPayment(payment.getId(), orderRequestDto, user);
+//            PaymentStatusEnum paymentResult = postCallResultPayment(payment.getId(), orderRequestDto, user);
+            PaymentStatusEnum paymentResult = PaymentStatusEnum.SUCCESS;
 
             OrderStatusEnum orderStatus;
             if (paymentResult.equals(PaymentStatusEnum.SUCCESS)) {
@@ -56,10 +59,14 @@ public class OrderService {
             Cart cart = cartRepository.findByIdAndDeletedAtIsNull(orderRequestDto.getCartId()).orElse(null);
             Store store = cart.getStore();
 
-            Order order = new Order(store, user, payment, orderStatus, orderRequestDto);
+
+            Order order = new Order(store, user, orderStatus, orderRequestDto);
+//            Order order = new Order(orderStatus, orderRequestDto);
 
             paymentRepository.save(payment);
+            order.setPayment(payment);
             orderRepository.save(order);
+
 
             FoodOrder foodOrder;
             for (FoodCartRequestDto foodCartRequestDto : orderRequestDto.getFoodCarRequestList()) {
@@ -74,16 +81,16 @@ public class OrderService {
                 return new ResponseEntity<>(CREATE_ORDER_FAIL.getMessage(), HttpStatus.OK);
             }
 
-            LocalDateTime now = LocalDateTime.now();
-            String userName = user.getUserName();
-            List<FoodCart> foodCartList = foodCartRepository.findAllByCart_IdAndDeletedAtIsNull(orderRequestDto.getCartId());
-            for (FoodCart foodCart : foodCartList) {
-                foodCart.setFoodCnt(0);
-                foodCart.setDeletedAt(now);
-                foodCart.setDeletedBy(userName);
-            }
-            cart.setDeletedAt(now);
-            cart.setDeletedBy(userName);
+//            LocalDateTime now = LocalDateTime.now();
+//            String userName = user.getUserName();
+//            List<FoodCart> foodCartList = foodCartRepository.findAllByCart_idAndDeletedAtIsNull(orderRequestDto.getCartId());
+//            for (FoodCart foodCart : foodCartList) {
+//                foodCart.setFoodCnt(0);
+//                foodCart.setDeletedAt(now);
+//                foodCart.setDeletedBy(userName);
+//            }
+//            cart.setDeletedAt(now);
+//            cart.setDeletedBy(userName);
 
 
             return new ResponseEntity<>(CREATE_ORDER_SUCCESS.getMessage(), HttpStatus.OK);
@@ -204,35 +211,32 @@ public class OrderService {
             bankString = BankEnum.KB.toString();
         }
 
-        try {
-            String paymentIdEncoding = URLEncoder.encode(paymentId.toString(), "UTF-8");
-            String query = URLEncoder.encode(bankString,"UTF-8");
-            URI uri = UriComponentsBuilder
-                    .fromUriString("http://localhost:8080")
-                    .path("/api/order/{paymentId}/bank/{bankId}")
-                    .encode()
-                    .build()
-                    .expand(paymentIdEncoding, query)
-                    .toUri();
-            log.info("uri = " + uri);
+        String idString = paymentId.toString();
+        String paymentIdEncoding = URLEncoder.encode(idString, StandardCharsets.UTF_8);
+        String query = URLEncoder.encode(bankString, StandardCharsets.UTF_8);
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:8080")
+                .path("/api/order/{paymentId}/bank/{bankId}")
+                .encode()
+                .build()
+                .expand(paymentIdEncoding, query)
+                .toUri();
+        OrderService.log.info("uri = " + uri);
 
-            PaymentRequestDto paymentRequestDto = new PaymentRequestDto(
-                    paymentId,
-                    user.getUserNickName(),
-                    user.getUserBirth(),
-                    user.getUserTel(),
-                    user.getUserEmail(),
-                    orderRequestDto.getOrderPrice()
-            );
+        PaymentRequestDto paymentRequestDto = new PaymentRequestDto(
+                paymentId,
+                user.getUserNickName(),
+                user.getUserBirth(),
+                user.getUserTel(),
+                user.getUserEmail(),
+                orderRequestDto.getOrderPrice()
+        );
 
-            ResponseEntity<PaymentStatusEnum> responseEntity = restTemplate.postForEntity(uri, paymentRequestDto, PaymentStatusEnum.class);
+        ResponseEntity<PaymentStatusEnum> responseEntity = restTemplate.postForEntity(uri, paymentRequestDto, PaymentStatusEnum.class);
 
-            log.info("statusCode = " + responseEntity.getStatusCode());
+        OrderService.log.info("statusCode = " + responseEntity.getStatusCode());
 
-            return responseEntity.getBody();
-        } catch (UnsupportedEncodingException e) {
-            return PaymentStatusEnum.FAIL;
-        }
+        return responseEntity.getBody();
     }
 
     private PaymentStatusEnum deleteCallResultPayment(Payment payment) {
@@ -249,8 +253,9 @@ public class OrderService {
         }
 
         try {
-            String paymentIdEncoding = URLEncoder.encode(paymentId.toString(), "UTF-8");
-            String bankEncoding = URLEncoder.encode(bankQuery,"UTF-8");
+            String idString = paymentId.toString();
+            String paymentIdEncoding = URLEncoder.encode(idString, StandardCharsets.UTF_8);
+            String bankEncoding = URLEncoder.encode(bankQuery,StandardCharsets.UTF_8);
             URI uri = UriComponentsBuilder
                     .fromUriString("http://localhost:8080")
                     .path("/api/order/{paymentId}/bank/{bankId}")
@@ -258,14 +263,14 @@ public class OrderService {
                     .build()
                     .expand(paymentIdEncoding, bankEncoding)
                     .toUri();
-            log.info("uri = " + uri);
+            OrderService.log.info("uri = " + uri);
 
             restTemplate.delete(uri);
 
-            log.info("request delete payment");
+            OrderService.log.info("request delete payment");
 
             return PaymentStatusEnum.CANCEL;
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             return PaymentStatusEnum.CANCEL_FAIL;
         }
     }

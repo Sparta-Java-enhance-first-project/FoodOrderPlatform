@@ -6,6 +6,7 @@ import com.example.foodorderplatform.enumclass.PaymentStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -30,7 +31,8 @@ public class Payment extends Timestamped {
 	private Long paymentPrice;
 
 	// 주문과의 연관 관계
-	@OneToOne(mappedBy = "payment")
+	@Setter
+	@OneToOne(fetch = FetchType.LAZY)
 	private Order order;
 
 	// 사용자와의 연관 관계
@@ -39,6 +41,7 @@ public class Payment extends Timestamped {
 	private User user;
 
 	public Payment(User user, BankEnum bank, Long paymentPrice) {
+		this.id = UUID.randomUUID();
 		this.user = user;
 		this.bank = bank;
 		this.paymentStatus = PaymentStatusEnum.PAYMENT_REQUEST;

@@ -5,6 +5,7 @@ import com.example.foodorderplatform.enumclass.BankEnum;
 import com.example.foodorderplatform.enumclass.PaymentStatusEnum;
 import com.example.foodorderplatform.security.UserDetailsImpl;
 import com.example.foodorderplatform.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/order")
-    public ResponseEntity<String> payRequest(@RequestBody OrderRequestDto orderRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<String> payRequest(@RequestBody @Valid OrderRequestDto orderRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return orderService.paymentRequest(orderRequestDto, userDetails.getUser());
     }
 
@@ -66,7 +67,7 @@ public class OrderController {
 
 
     @PostMapping("/order/{paymentId}/bank/{bankId}")
-    public ResponseEntity<PaymentStatusEnum> makePaymentResult(@PathVariable String paymentId,@PathVariable String bankId, @RequestBody OrderRequestDto orderRequestDto)  {
+    public ResponseEntity<PaymentStatusEnum> makePaymentResult(@PathVariable String paymentId,@PathVariable String bankId, @RequestBody PaymentRequestDto paymentRequestDto)  {
         try {
             UUID paymentUUID = UUID.fromString(URLDecoder.decode(paymentId,"UTF-8"));
             BankEnum decoder = BankEnum.valueOf(URLDecoder.decode(bankId, "UTF-8"));
@@ -78,7 +79,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/order/{paymentId}/bank/{bankId}")
-    public void deletePaymentResult(@PathVariable String paymentId, @PathVariable String bankId, @RequestBody OrderRequestDto orderRequestDto){
+    public void deletePaymentResult(@PathVariable String paymentId, @PathVariable String bankId, @RequestBody PaymentRequestDto paymentRequestDto){
 
 
     }

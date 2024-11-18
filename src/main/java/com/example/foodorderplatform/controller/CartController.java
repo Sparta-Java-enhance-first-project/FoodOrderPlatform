@@ -4,6 +4,7 @@ import com.example.foodorderplatform.dto.CartInfoResponseDto;
 import com.example.foodorderplatform.dto.FoodCartRequestDto;
 import com.example.foodorderplatform.security.UserDetailsImpl;
 import com.example.foodorderplatform.service.CartService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class CartController {
     }
 
     @PatchMapping("/cart/{cartId}")
-    public ResponseEntity<String> updateFoodCount(@PathVariable UUID cartId,@RequestBody FoodCartRequestDto foodCartRequestDto) {
+    public ResponseEntity<String> updateFoodCount(@PathVariable UUID cartId,@RequestBody @Valid FoodCartRequestDto foodCartRequestDto) {
         return cartService.updateFoodCount(cartId, foodCartRequestDto);
     }
 

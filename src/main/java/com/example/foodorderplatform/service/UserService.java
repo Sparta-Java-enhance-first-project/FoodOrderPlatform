@@ -13,6 +13,8 @@ import com.example.foodorderplatform.entity.User;
 import com.example.foodorderplatform.repository.RegionRepository;
 import com.example.foodorderplatform.repository.UserRepository;
 import java.util.Optional;
+
+import com.example.foodorderplatform.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,16 +66,16 @@ public class UserService {
         return new ResponseEntity<>(SIGNUP_SUCCESS.getMessage(), HttpStatus.OK);
     }
 
-    public ResponseEntity<UserInfoResponseDto> getUserInfo() {
+    public ResponseEntity<UserInfoResponseDto> getUserInfo(UserDetailsImpl userDetails) {
 
-        User user = userRepository.findByUserName(null).orElseThrow(
+        User user = userRepository.findByUserName(userDetails.getUsername()).orElseThrow(
                 () -> new NullPointerException("존재하지 않는 회원입니다.")
         );
         return new ResponseEntity<>(new UserInfoResponseDto(user), HttpStatus.OK);
     }
 
-    public ResponseEntity<UserInfoResponseDto> updateUserInfo(UserInfoRequestDto requestDto) {
-        User user = userRepository.findByUserName("yshong1998").orElseThrow(
+    public ResponseEntity<UserInfoResponseDto> updateUserInfo(UserInfoRequestDto requestDto, UserDetailsImpl userDetails) {
+        User user = userRepository.findByUserName("yeongho").orElseThrow(
                 () -> new NullPointerException("존재하지 않는 회원입니다.")
         );
         Optional<Region> region = regionRepository.findByRegionName(requestDto.getRegionName());

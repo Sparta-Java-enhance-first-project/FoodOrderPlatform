@@ -3,6 +3,7 @@ package com.example.foodorderplatform.service;
 
 import com.example.foodorderplatform.dto.CartInfoResponseDto;
 import com.example.foodorderplatform.dto.FoodCartRequestDto;
+import com.example.foodorderplatform.dto.StoreCreateResponseDto;
 import com.example.foodorderplatform.entity.*;
 import com.example.foodorderplatform.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -32,15 +33,15 @@ public class CartService {
     private final StoreRepository storeRepository;
 
     public ResponseEntity<CartInfoResponseDto> getCartInfo(Long userId) {
-        Cart cart = cartRepository.findByUser_IdAndDeletedAtIsNull(userId).orElse(null);
+        Cart cart = cartRepository.findByUser_idAndDeletedAtIsNull(userId).orElse(null);
 
         if (cart == null) {
             return ResponseEntity.ok().build();
         }
 
-        List<FoodCart> foodCartList = foodCartRepository.findAllByCart_IdAndDeletedAtIsNull(cart.getId());
-
-        String userAddress;
+        List<FoodCart> foodCartList = foodCartRepository.findAllByCart_idAndDeletedAtIsNull(cart.getId());
+        //List<StoreCreateResponseDto> storeCreateResponseDtoList = storeList.stream().map(StoreCreateResponseDto::new).toList();
+        String userAddress = "";
         if(userRepository.findById(userId).isPresent()){
             userAddress = userRepository.findById(userId).get().getAddress().getAddressName();
         }else{
@@ -48,6 +49,7 @@ public class CartService {
         }
 
         CartInfoResponseDto cartInfoResponseDto = new CartInfoResponseDto();
+        cartInfoResponseDto.setCartId(cart.getId());
         cartInfoResponseDto.setFoodList(foodCartList);
         cartInfoResponseDto.setAddress(userAddress);
 
@@ -61,7 +63,7 @@ public class CartService {
             Store store = storeRepository.findById(storeId).orElse(null);
             Food food = foodRepository.findById(foodId).orElse(null);
 
-            Cart cart = cartRepository.findByUser_idAndStore_id(user.getId(), store.getId()).orElse(new Cart(user, store));
+            Cart cart = cartRepository.findByUser_idAndStore_idAndDeletedAtIsNull(user.getId(), store.getId()).orElse(new Cart(user, store));
             FoodCart foodCart = foodCartRepository.findByFood_idAndCart_idAndDeletedAtIsNull(food.getId(), cart.getId())
                     .orElse(new FoodCart(cart, food));
 
@@ -105,7 +107,7 @@ public class CartService {
             foodCart.setDeletedBy(userName);
 
             responseMessage = DELETE_FOODCOUNT_SUCCESS.getMessage();
-            foodCart.setDeletedAt(LocalDateTime.now());
+//            foodCart.setDeletedAt(LocalDateTime.now());
         } catch (Exception e) {
             responseMessage = DELETE_FOODCOUNT_ERROR.getMessage();
         }
@@ -124,7 +126,7 @@ public class CartService {
             cart.setDeletedAt(now);
             cart.setDeletedBy(userName);
 
-            List<FoodCart> foodCartList = foodCartRepository.findAllByCart_IdAndDeletedAtIsNull(cart.getId());
+            List<FoodCart> foodCartList = foodCartRepository.findAllByCart_idAndDeletedAtIsNull(cart.getId());
 
             for (FoodCart foodCart : foodCartList) {
                 foodCart.setFoodCnt(0);
@@ -139,4 +141,6 @@ public class CartService {
 
         return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
+
 }
+

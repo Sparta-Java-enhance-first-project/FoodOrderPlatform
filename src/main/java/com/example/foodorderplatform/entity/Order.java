@@ -49,17 +49,17 @@ public class Order extends Timestamped {
 	private Store store;
 
 	// 결제와의 연관 관계
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "payment_id")
 	private Payment payment;
 
 	@OneToMany(mappedBy = "order")
 	private List<FoodOrder> foodOrderList;
 
-	public Order(Store store, User user, Payment payment, OrderStatusEnum orderStatus, OrderRequestDto orderRequest) {
+	public Order(Store store, User user, OrderStatusEnum orderStatus, OrderRequestDto orderRequest) {
+//	public Order(OrderStatusEnum orderStatus, OrderRequestDto orderRequest) {
 		this.store = store;
 		this.user = user;
-		this.payment = payment;
 		this.orderStatus = orderStatus;
 		this.orderPrice = orderRequest.getOrderPrice();
 		this.orderType = orderRequest.getOrderType();
@@ -69,5 +69,9 @@ public class Order extends Timestamped {
 	}
 	public void setOrderRequest(String orderRequest) {
 		this.orderRequest = orderRequest;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 }

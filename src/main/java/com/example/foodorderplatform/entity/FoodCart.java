@@ -26,6 +26,7 @@ public class FoodCart extends Timestamped {
 	private Cart cart;
 
 	@ManyToOne
+//	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "food_id")
 	private Food food;
 

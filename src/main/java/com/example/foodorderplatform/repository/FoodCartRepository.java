@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface FoodCartRepository extends JpaRepository<FoodCart, UUID> {
     Optional<FoodCart> findByFood_idAndCart_idAndDeletedAtIsNull(UUID foodId, UUID cartId);
 
-    List<FoodCart> findAllByCart_IdAndDeletedAtIsNull(UUID cartId);
+    List<FoodCart> findAllByCart_idAndDeletedAtIsNull(UUID cartId);
 }

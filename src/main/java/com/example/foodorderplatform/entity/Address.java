@@ -1,12 +1,9 @@
 package com.example.foodorderplatform.entity;
 
 import com.example.foodorderplatform.auditing.Timestamped;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +19,9 @@ public class Address extends Timestamped {
 	private UUID id;
 	@Column(nullable = false)
 	private String addressName;
+
+	@OneToOne(mappedBy = "address")
+	private User user;
 
 	public Address(String addressName){
 		this.addressName = addressName;
