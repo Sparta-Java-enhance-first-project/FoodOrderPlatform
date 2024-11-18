@@ -1,5 +1,6 @@
 package com.example.foodorderplatform.entity;
 
+import com.example.foodorderplatform.auditing.Timestamped;
 import com.example.foodorderplatform.dto.BusinessInfoDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "p_business_info")
 @NoArgsConstructor
-public class BusinessInfo {
+public class BusinessInfo extends Timestamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
