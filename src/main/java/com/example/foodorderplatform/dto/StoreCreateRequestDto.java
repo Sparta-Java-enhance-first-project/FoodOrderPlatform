@@ -21,6 +21,7 @@ public class StoreCreateRequestDto {
     private String ingredientOrigin;	// 원산지
     private String regionName;          // 지역 이름
     private String addressName;         // 상세 주소
+    private String storeCategoryName;   // 가게 카테고리 이름
     private BusinessInfoDto businessInfoDto;
 
 }

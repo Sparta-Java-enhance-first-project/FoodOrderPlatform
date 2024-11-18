@@ -9,6 +9,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,24 +32,24 @@ public class FoodTagController {
      * @return 음식 태그 생성 메세지
      */
     @PostMapping
-    public ResponseEntity<String> createFoodTag(@PathVariable UUID storeId, @RequestBody FoodTagRequestDto requestDto){
-        return foodTagService.createFoodTag(storeId, requestDto);
+    public ResponseEntity<String> createFoodTag(@PathVariable UUID storeId,
+                                                @RequestBody FoodTagRequestDto requestDto,
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return foodTagService.createFoodTag(storeId, requestDto, userDetails.getUser());
     }
 
     /**
      * 음식 태그 목록 조회
-     * @param userDetails 사용자 정보
      * @param storeId 가게 아이디
      * @return 음식 태그 목록
      */
     @GetMapping
-    public ResponseEntity<List<FoodTagResponseDto>> getFoodTagList(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                   @PathVariable UUID storeId){
-        return foodTagService.getFoodTagList(userDetails.getUser(), storeId);
+    public ResponseEntity<List<FoodTagResponseDto>> getFoodTagList(@PathVariable UUID storeId){
+        return foodTagService.getFoodTagList(storeId);
     }
 
     /**
-     *
+     * 음식 태그 수정
      * @param userDetails 사용자 정보
      * @param storeId 가게 아이디
      * @param foodTagId 수정할 음식 태그 아이디
@@ -60,6 +61,20 @@ public class FoodTagController {
                                                 @PathVariable UUID storeId,
                                                 @PathVariable UUID foodTagId,
                                                 @RequestBody FoodTagRequestDto requestDto){
-        return foodTagService.updateFoodTag(userDetails.getUser(), storeId, foodTagId, requestDto);
+        return foodTagService.updateFoodTag(storeId, foodTagId, requestDto, userDetails.getUser());
+    }
+
+    /**
+     * 음식 태그 삭제
+     * @param userDetails 사용자 정보
+     * @param storeId 가게 아이디
+     * @param foodTagId 삭제할 음식 태그 아이디
+     * @return 요청 성공 메세지
+     */
+    @DeleteMapping("{foodTagId}")
+    public ResponseEntity<String> deleteFoodTag(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                @PathVariable UUID storeId,
+                                                @PathVariable UUID foodTagId){
+        return foodTagService.deleteFoodTag(storeId, foodTagId, userDetails.getUser());
     }
 }

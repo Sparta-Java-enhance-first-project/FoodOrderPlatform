@@ -1,9 +1,11 @@
 package com.example.foodorderplatform.service;
 
+import static com.example.foodorderplatform.message.ExceptionMessage.USER_UNAUTHORIZED;
 import static com.example.foodorderplatform.message.SuccessMessage.STORE_ENTER_REQUEST_SUCCESS;
 
 import com.example.foodorderplatform.dto.StoreCreateRequestDto;
 import com.example.foodorderplatform.dto.StoreCreateResponseDto;
+import com.example.foodorderplatform.dto.StoreInfoResponseDto;
 import com.example.foodorderplatform.entity.Address;
 import com.example.foodorderplatform.entity.BusinessInfo;
 import com.example.foodorderplatform.entity.Region;
@@ -17,6 +19,7 @@ import com.example.foodorderplatform.repository.BusinessInfoRepository;
 import com.example.foodorderplatform.repository.RegionRepository;
 import com.example.foodorderplatform.repository.StoreRepository;
 import com.example.foodorderplatform.repository.UserRepository;
+import com.example.foodorderplatform.util.UserValidator;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +40,8 @@ public class StoreService {
     private final RegionRepository regionRepository;
     private final AddressRepository addressRepository;
 
-
-    public ResponseEntity<String> createStoreEnterRequest(StoreCreateRequestDto storeCreateRequestDto) {
-        //todo 임시, 추후 시큐리티 도입 후 userDetails를 통해 가져오도록 변경
-        User user = userRepository.findByUserName("yshong1998").get();
+    // 가게 생성 요청
+    public ResponseEntity<String> createStoreEnterRequest(StoreCreateRequestDto storeCreateRequestDto, User user) {
         // 지역 생성 or 조회
         Region region = regionRepository.findByRegionName(storeCreateRequestDto.getRegionName()).orElse(null);
         if (region == null){
@@ -58,31 +59,59 @@ public class StoreService {
         return new ResponseEntity<>(STORE_ENTER_REQUEST_SUCCESS.getMessage(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<StoreCreateResponseDto>> getStoreEnterRequestList() {
+    // 가게 생성 요청 목록 조회
+    public ResponseEntity<List<StoreCreateResponseDto>> getStoreEnterRequestList(User user) {
+        if (!UserValidator.validateRoleUpperManager(user)){
+            throw new IllegalArgumentException(USER_UNAUTHORIZED.getMessage());
+        }
         List<Store> storeList = storeRepository.findAllByConfirmStatus(StoreConfirmStatus.REQUIRED);
         List<StoreCreateResponseDto> storeCreateResponseDtoList = storeList.stream().map(StoreCreateResponseDto::new).toList();
         return new ResponseEntity<>(storeCreateResponseDtoList, HttpStatus.OK);
     }
 
-    public ResponseEntity<StoreCreateResponseDto> getStoreEnterRequest(UUID storeId) {
+    // 가게 생성 요청 단일 조회
+    public ResponseEntity<StoreCreateResponseDto> getStoreEnterRequest(UUID storeId, User user) {
+        if (!UserValidator.validateRoleUpperManager(user)){
+            throw new IllegalArgumentException(USER_UNAUTHORIZED.getMessage());
+        }
         Store store = findStoreById(storeId);
         return new ResponseEntity<>(new StoreCreateResponseDto(store), HttpStatus.OK);
-
     }
 
-    public ResponseEntity<String> confirmStoreEnterRequest(UUID storeId) {
+    // 가게 생성 요청 승인
+    public ResponseEntity<String> confirmStoreEnterRequest(UUID storeId, User user) {
+        if (!UserValidator.validateRoleUpperManager(user)){
+            throw new IllegalArgumentException(USER_UNAUTHORIZED.getMessage());
+        }
         Store store = findStoreById(storeId);
         store.enterConfirm();
         return new ResponseEntity<>(SuccessMessage.STORE_ENTER_REQUEST_CONFIRMED.getMessage(), HttpStatus.OK);
     }
 
-
-    public ResponseEntity<String> rejectStoreEnterRequest(UUID storeId) {
+    // 가게 생성 요청 거부
+    public ResponseEntity<String> rejectStoreEnterRequest(UUID storeId, User user) {
+        if (!UserValidator.validateRoleUpperManager(user)){
+            throw new IllegalArgumentException(USER_UNAUTHORIZED.getMessage());
+        }
         Store store = findStoreById(storeId);
         store.enterReject();
+        store.setDeletedByUser(user.getUserName());
         return new ResponseEntity<>(SuccessMessage.STORE_ENTER_REQUEST_REJECTED.getMessage(), HttpStatus.OK);
     }
 
+    // 가게 목록 조회
+    public ResponseEntity<List<StoreInfoResponseDto>> getStoreList(String storeCategoryName) {
+        List<Store> storeList = storeRepository.findAllByStoreCategory_StoreCategoryName(
+                storeCategoryName);
+        List<StoreInfoResponseDto> storeInfoResponseDtoList = storeList.stream().map(StoreInfoResponseDto::new).toList();
+        return new ResponseEntity<>(storeInfoResponseDtoList, HttpStatus.OK);
+    }
+
+    // 가게 단일 조회
+    public ResponseEntity<StoreInfoResponseDto> getStore(UUID storeId) {
+        Store store = findStoreById(storeId);
+        return new ResponseEntity<>(new StoreInfoResponseDto(store), HttpStatus.OK);
+    }
     /*
     ------------------------------------------------[private]--------------------------------------------------------
      */

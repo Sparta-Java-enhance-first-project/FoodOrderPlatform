@@ -45,7 +45,6 @@ public class UserController {
         return userService.signup(requestDto);
     }
 
-
     /**
      * 마이 페이지 유저 정보 조회
      * @return 마이페이지
@@ -64,7 +63,4 @@ public class UserController {
     public ResponseEntity<UserInfoResponseDto> updateUserInfo(@RequestBody UserInfoRequestDto requestDto){
         return userService.updateUserInfo(requestDto);
     }
-
-
-
 }

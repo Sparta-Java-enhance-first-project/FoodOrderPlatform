@@ -18,5 +18,5 @@ public class StoreCategory {
 	private UUID id;
 
 	@Column(nullable = false)
-	private String categoryName;	// 카테고리 이름
+	private String storeCategoryName;	// 카테고리 이름
 }

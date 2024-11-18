@@ -30,16 +30,16 @@ public class Order extends Timestamped {
 	private String orderRequest;			// 주문 요청사항
 
 	// 유저와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
 	// 가게와의 연관 관계
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
 	private Store store;
 
 	// 결제와의 연관 관계
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private Payment payment;
 }
