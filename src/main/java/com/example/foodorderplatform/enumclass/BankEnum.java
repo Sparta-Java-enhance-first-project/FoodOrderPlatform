@@ -1,5 +1,8 @@
 package com.example.foodorderplatform.enumclass;
 
+import lombok.Getter;
+
+@Getter
 public enum BankEnum {
     HANA(BankName.HANA),
     SHINHAN(BankName.SHINHAN),
